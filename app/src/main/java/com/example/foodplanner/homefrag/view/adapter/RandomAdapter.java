@@ -1,6 +1,7 @@
-package com.example.foodplanner.homefrag.view;
+package com.example.foodplanner.homefrag.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.R;
+import com.example.foodplanner.homefrag.view.DetailActivity;
 import com.example.foodplanner.model.RandomMeal;
 
 import java.util.ArrayList;
@@ -60,6 +62,18 @@ public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 //                //listener.onProductClick(currentProduct);
 //            }
 //        });
+
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle click event
+                // Open the meal details fragment
+                Context context = v.getContext();
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("meal", randomMeal);
+                context.startActivity(intent);
+            }
+        });
 
         }
 

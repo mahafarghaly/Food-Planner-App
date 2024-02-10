@@ -1,4 +1,4 @@
-package com.example.foodplanner.home;
+package com.example.foodplanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;

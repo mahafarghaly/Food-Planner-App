@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import com.example.foodplanner.R;
 import com.example.foodplanner.homefrag.presenter.HomeFragPresenter;
 import com.example.foodplanner.homefrag.presenter.HomeFragPresenterImpl;
+import com.example.foodplanner.homefrag.view.adapter.CategoriesAdapter;
+import com.example.foodplanner.homefrag.view.adapter.RandomAdapter;
 import com.example.foodplanner.model.Categories;
 import com.example.foodplanner.model.MealRepository;
 import com.example.foodplanner.model.RandomMeal;

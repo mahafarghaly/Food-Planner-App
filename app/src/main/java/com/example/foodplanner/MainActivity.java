@@ -8,9 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.foodplanner.home.HomeActivity;
-import com.example.foodplanner.signup.SignUpActivity;
-
 public class MainActivity extends AppCompatActivity {
 Button button;
 TextView textView;
