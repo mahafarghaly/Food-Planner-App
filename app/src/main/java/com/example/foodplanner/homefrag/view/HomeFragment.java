@@ -15,28 +15,31 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.foodplanner.R;
-import com.example.foodplanner.homefrag.presenter.CategoriesPresenter;
-import com.example.foodplanner.homefrag.presenter.CategoriesPresenterImpl;
+import com.example.foodplanner.homefrag.presenter.HomeFragPresenter;
+import com.example.foodplanner.homefrag.presenter.HomeFragPresenterImpl;
 import com.example.foodplanner.model.Categories;
 import com.example.foodplanner.model.MealRepository;
+import com.example.foodplanner.model.RandomMeal;
 import com.example.foodplanner.network.MealRemoteDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeFragment extends Fragment implements CategoriesView {
+public class HomeFragment extends Fragment implements HomeFragmentView {
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    RecyclerView allRecyclerView;
+    RecyclerView categoriesRecyclerView,randomRecyclerView;
     CategoriesAdapter categoriesAdapter;
+    RandomAdapter randomAdapter;
 
-    CategoriesPresenter categoriesPresenter;
-    LinearLayoutManager linearLayoutManager;
- String TAG ="Categories";
+    HomeFragPresenter homeFragPresenter;
+    LinearLayoutManager linearLayoutManager,linearLayoutManager2;
+
+ String TAG ="HomeFragment";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +51,8 @@ public class HomeFragment extends Fragment implements CategoriesView {
         Log.i(TAG, "onCreateView: ");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        allRecyclerView = view.findViewById(R.id.rv_categories); // Find RecyclerView here
+        categoriesRecyclerView = view.findViewById(R.id.rv_categories); // Find RecyclerView here
+        randomRecyclerView =  view.findViewById(R.id.rv_random);
         return view;
       
     }
@@ -60,14 +64,26 @@ public class HomeFragment extends Fragment implements CategoriesView {
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);// Use getContext() to get the context of the fragment
         categoriesAdapter = new CategoriesAdapter(getContext(), new ArrayList<>());
-        categoriesPresenter = new CategoriesPresenterImpl(this,
+        homeFragPresenter = new HomeFragPresenterImpl(this,
                 MealRepository.getInstance(MealRemoteDataSource.getInstance()
                         // ProductLocalDataSource.getInstance(this)
                 ));
-        allRecyclerView.setLayoutManager(linearLayoutManager);
-        allRecyclerView.setAdapter(categoriesAdapter);
-        categoriesPresenter.getCategories();
+        categoriesRecyclerView.setLayoutManager(linearLayoutManager);
+        categoriesRecyclerView.setAdapter(categoriesAdapter);
+        homeFragPresenter.getCategories();
         Log.i(TAG, "onViewCreated111111111: ");
+        /**Random  Meal**********************************/
+        linearLayoutManager2 = new LinearLayoutManager(getContext());
+        linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);// Use getContext() to get the context of the fragment
+        randomAdapter = new RandomAdapter(getContext(), new ArrayList<>());
+        homeFragPresenter = new HomeFragPresenterImpl(this,
+                MealRepository.getInstance(MealRemoteDataSource.getInstance()
+                        // ProductLocalDataSource.getInstance(this)
+                ));
+        randomRecyclerView.setLayoutManager(linearLayoutManager2);
+        randomRecyclerView.setAdapter(randomAdapter);
+        homeFragPresenter.getRandomMeal();
+        Log.i(TAG, "onViewCreated2222222222: ");
     }
 
 
@@ -90,6 +106,13 @@ public class HomeFragment extends Fragment implements CategoriesView {
 
     @Override
     public void addProduct(Categories product) {
-        // Implement this method to add a product
+
+    }
+
+    @Override
+    public void showRandom(List<RandomMeal> randomMeals) {
+        randomAdapter.setRandomMealList(randomMeals);
+        randomAdapter.notifyDataSetChanged();
+        Log.i(TAG, "showRandomData: ");
     }
 }

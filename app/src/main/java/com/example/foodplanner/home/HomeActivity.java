@@ -44,30 +44,8 @@ public class HomeActivity extends AppCompatActivity {
       return true;
 
         });
-//        binding=ActivityHomeBinding.inflate(getLayoutInflater());
-//        setContentView(binding.getRoot());
-//        binding.bottomNavigation.setBackground(null);
-//        binding.bottomNavigation.setOnItemSelectedListener(item->{
-//            switch(item.getItemId()){
-//                case R.id.nav_home:
-//                    replaceFragment(new HomeFragment());
-//                    break;
-//                    case R.id.nav_add :
-//                        replaceFragment(new AddRecipeFragment());
-//                        break;
-//                case R.id.nav_plan :
-//                    replaceFragment(new YourPlanFragment());
-//                    break;
-//
-//            }
-//            return true;
-//        });
+
 
     }
-//    private void replaceFragment(Fragment fragment){
-//        FragmentManager fragmentManager=getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.bottom_navigation,fragment);
-//        fragmentTransaction.commit();
-//    }
+
 }

@@ -1,11 +1,7 @@
 package com.example.foodplanner.model;
 
-import androidx.lifecycle.LiveData;
-
 import com.example.foodplanner.network.MealRemoteDataSource;
 import com.example.foodplanner.network.NetworkCallback;
-
-import java.util.List;
 
 public class MealRepository {
     MealRemoteDataSource remoteDataSource;
@@ -23,5 +19,9 @@ public class MealRepository {
 
     public void getAllCategories(NetworkCallback networkCallback){
         remoteDataSource.makeNetworkCall((networkCallback));
+    }
+
+    public void getRandomMeal(NetworkCallback networkCallback){
+        remoteDataSource.randomNetworkCall((networkCallback));
     }
 }

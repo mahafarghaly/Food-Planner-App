@@ -4,7 +4,8 @@ import com.example.foodplanner.model.Categories;
 
 import java.util.List;
 
-public interface NetworkCallback {
-    public void onSuccessResult(List<Categories> products);
+public interface NetworkCallback <T>{
+    public void onSuccessResult(List<T> products);
     public void onFailureResult (String errorMsg);
+
 }

@@ -8,4 +8,6 @@ import retrofit2.http.GET;
 public interface MealService {
     @GET("categories.php")
     Call<MealResponse> getCategories();
+    @GET("random.php")
+    Call<MealResponse> getRandomMeal();
 }

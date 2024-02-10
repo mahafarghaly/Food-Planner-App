@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -76,9 +75,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter <CategoriesAdapter.V
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.tv_protuct_title);
+            titleTextView = itemView.findViewById(R.id.tv_random_name);
            // priceTextView = itemView.findViewById(R.id.tv_product_price);
-            imageView = itemView.findViewById(R.id.iv_product);
+            imageView = itemView.findViewById(R.id.iv_random);
            // btn_add=itemView.findViewById(R.id.btn_add);
 
         }
