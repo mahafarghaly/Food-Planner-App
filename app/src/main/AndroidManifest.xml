@@ -15,7 +15,10 @@
         android:theme="@style/Theme.FoodPlanner"
         tools:targetApi="31">
         <activity
-            android:name=".homefrag.view.DetailActivity"
+            android:name=".mealbycategory.view.MealByCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".detail.view.DetailActivity"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"

@@ -13,31 +13,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.R;
-import com.example.foodplanner.homefrag.view.DetailActivity;
-import com.example.foodplanner.model.RandomMeal;
+import com.example.foodplanner.detail.view.DetailActivity;
+import com.example.foodplanner.model.Meal;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RandomAdapter extends RecyclerView.Adapter <RandomAdapter.ViewHolder>{
+public class MealAdapter extends RecyclerView.Adapter <MealAdapter.ViewHolder>{
 public static final String TAG="AllRandomAdapter";
 private Context context;
 
-private List<RandomMeal> randomMealList;
+private List<Meal> mealList;
 
-public List<RandomMeal> getRandomMealList() {
-        return randomMealList;
+public List<Meal> getRandomMealList() {
+        return mealList;
         }
 
-public void setRandomMealList(List<RandomMeal> randomMealList) {
-        this.randomMealList = randomMealList;
+public void setRandomMealList(List<Meal> mealList) {
+        this.mealList = mealList;
         notifyDataSetChanged();
         }
 
-public RandomAdapter(Context context, List<RandomMeal> randomMeals) {
+public MealAdapter(Context context, List<Meal> meals) {
         this.context = context;
-        this.randomMealList = randomMeals;
-    randomMeals=new ArrayList<RandomMeal>();
+        this.mealList = meals;
+    meals =new ArrayList<Meal>();
         }
 
 
@@ -50,11 +50,11 @@ public RandomAdapter(Context context, List<RandomMeal> randomMeals) {
 
     @Override
 public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        RandomMeal randomMeal = randomMealList.get(position);
+        Meal meal = mealList.get(position);
 
-        holder.titleTextView.setText(randomMeal.getStrMeal());
+        holder.titleTextView.setText(meal.getStrMeal());
         //holder.priceTextView.setText("Price: " + (category.getPrice()));
-        Glide.with(context).load(randomMeal.getStrMealThumb()).into(holder.imageView);
+        Glide.with(context).load(meal.getStrMealThumb()).into(holder.imageView);
 //        holder.btn_add.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -70,7 +70,7 @@ public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
                 // Open the meal details fragment
                 Context context = v.getContext();
                 Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("meal", randomMeal);
+                intent.putExtra("meal", meal);
                 context.startActivity(intent);
             }
         });
@@ -79,7 +79,7 @@ public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
 @Override
 public int getItemCount() {
-        return randomMealList.size();
+        return mealList.size();
         }
 
 public class ViewHolder extends RecyclerView.ViewHolder {

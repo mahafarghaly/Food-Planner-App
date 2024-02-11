@@ -16,10 +16,10 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/iv_category"
-            android:layout_width="180dp"
-            android:scaleType="centerCrop"
+            android:id="@+id/iv_meal"
+            android:layout_width="220dp"
             android:layout_height="200dp"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,20 +28,37 @@
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <TextView
-            android:id="@+id/tv_category_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/tv_meal_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:maxLines="3"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="5dp"
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="#0F100F"
             android:textColorHint="#100F10"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="220dp"
+            android:layout_height="110dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.509"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_random" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_meal"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

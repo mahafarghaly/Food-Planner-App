@@ -4,7 +4,7 @@ package com.example.foodplanner.homefrag.presenter;
 import com.example.foodplanner.homefrag.view.HomeFragmentView;
 import com.example.foodplanner.model.Categories;
 import com.example.foodplanner.model.MealRepository;
-import com.example.foodplanner.model.RandomMeal;
+import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.network.NetworkCallback;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public void onSuccessResult(List meal) {
     if (meal.get(0) instanceof Categories) {
         // Handle categories data
         _view.showData(meal);
-    } else if (meal.get(0) instanceof RandomMeal) {
+    } else if (meal.get(0) instanceof Meal) {
         // Handle random meal data
         _view.showRandom(meal);
     }

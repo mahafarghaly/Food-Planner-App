@@ -5,8 +5,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "category_table")
-public class Categories {
+public class Categories implements Serializable {
 @PrimaryKey
 @NonNull
     private String idCategory;

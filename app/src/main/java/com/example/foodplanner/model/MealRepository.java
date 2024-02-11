@@ -24,4 +24,10 @@ public class MealRepository {
     public void getRandomMeal(NetworkCallback networkCallback){
         remoteDataSource.randomNetworkCall((networkCallback));
     }
+    public void getMealByCategory(NetworkCallback networkCallback ,String category){
+        remoteDataSource.mealByCatNetworkCall(networkCallback,category);
+    }
+    public void getMealById(NetworkCallback networkCallback,String strMeal){
+        remoteDataSource.mealByIdNetworkCall(networkCallback,strMeal);
+    }
 }

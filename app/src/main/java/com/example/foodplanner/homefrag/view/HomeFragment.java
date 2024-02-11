@@ -18,10 +18,10 @@ import com.example.foodplanner.R;
 import com.example.foodplanner.homefrag.presenter.HomeFragPresenter;
 import com.example.foodplanner.homefrag.presenter.HomeFragPresenterImpl;
 import com.example.foodplanner.homefrag.view.adapter.CategoriesAdapter;
-import com.example.foodplanner.homefrag.view.adapter.RandomAdapter;
+import com.example.foodplanner.homefrag.view.adapter.MealAdapter;
 import com.example.foodplanner.model.Categories;
 import com.example.foodplanner.model.MealRepository;
-import com.example.foodplanner.model.RandomMeal;
+import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.network.MealRemoteDataSource;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
 
     RecyclerView categoriesRecyclerView,randomRecyclerView;
     CategoriesAdapter categoriesAdapter;
-    RandomAdapter randomAdapter;
+    MealAdapter mealAdapter;
 
     HomeFragPresenter homeFragPresenter;
     LinearLayoutManager linearLayoutManager,linearLayoutManager2;
@@ -77,13 +77,13 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         /**Random  Meal**********************************/
         linearLayoutManager2 = new LinearLayoutManager(getContext());
         linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);// Use getContext() to get the context of the fragment
-        randomAdapter = new RandomAdapter(getContext(), new ArrayList<>());
+        mealAdapter = new MealAdapter(getContext(), new ArrayList<>());
         homeFragPresenter = new HomeFragPresenterImpl(this,
                 MealRepository.getInstance(MealRemoteDataSource.getInstance()
                         // ProductLocalDataSource.getInstance(this)
                 ));
         randomRecyclerView.setLayoutManager(linearLayoutManager2);
-        randomRecyclerView.setAdapter(randomAdapter);
+        randomRecyclerView.setAdapter(mealAdapter);
         homeFragPresenter.getRandomMeal();
         Log.i(TAG, "onViewCreated2222222222: ");
     }
@@ -112,9 +112,9 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     }
 
     @Override
-    public void showRandom(List<RandomMeal> randomMeals) {
-        randomAdapter.setRandomMealList(randomMeals);
-        randomAdapter.notifyDataSetChanged();
+    public void showRandom(List<Meal> meals) {
+        mealAdapter.setRandomMealList(meals);
+        mealAdapter.notifyDataSetChanged();
         Log.i(TAG, "showRandomData: ");
     }
 }

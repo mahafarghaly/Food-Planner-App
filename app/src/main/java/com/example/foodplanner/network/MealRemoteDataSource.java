@@ -3,7 +3,7 @@ package com.example.foodplanner.network;
 import android.util.Log;
 
 import com.example.foodplanner.model.MealResponse;
-import com.example.foodplanner.model.RandomMeal;
+import com.example.foodplanner.model.Meal;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -60,37 +60,28 @@ public class MealRemoteDataSource {
          Gson gson=new GsonBuilder().setLenient().create();
          Retrofit retrofit=new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).build();
          MealService mealService=retrofit.create(MealService.class);
-         Call<MealResponse> call=mealService.getRandomMeal();
+         Call<MealResponse> call=mealService.getMeal();
          call.enqueue(new Callback<MealResponse>(){
 
              @Override
              public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-//                 if(response.isSuccessful()){
-//                  //  networkCallback.onSuccessResult(response.body().getRandomMeal());
-//                     Log.i(TAG, "onResponse Random Mail: "+response.body());
-//                 }
                       if(response.isSuccessful()){
-                         List<RandomMeal> randomMeals = response.body().getRandomMeal();
+                         List<Meal> meals = response.body().getMeal();
                          // Log response data
-                         if (randomMeals != null) {
+                         if (meals != null) {
                              Log.d(TAG, "Random Meals:");
-                             for (RandomMeal meal : randomMeals) {
+                             for (Meal meal : meals) {
                                  Log.d(TAG, meal.toString());
                              }
                          } else {
                              Log.d(TAG, "Random Meals: null");
                          }
                          // Now you can pass the randomMeals to the callback
-                         networkCallback.onSuccessResult(randomMeals);
+                         networkCallback.onSuccessResult(meals);
                      } else {
                          Log.e(TAG, "Response not successful: " + response.code());
                      }
                  }
-
-
-
-
-
                  @Override
              public void onFailure(Call<MealResponse> call, Throwable t) {
                  networkCallback.onFailureResult(t.getMessage());
@@ -100,5 +91,76 @@ public class MealRemoteDataSource {
          });
 
      }
+     public void mealByCatNetworkCall(NetworkCallback networkCallback,String category){
+         Gson gson=new GsonBuilder().setLenient().create();
+         Retrofit retrofit=new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).build();
+         MealService mealService=retrofit.create(MealService.class);
+         Call<MealResponse> call=mealService.getMealByCategory(category);
+         call.enqueue(new Callback<MealResponse>(){
 
+             @Override
+             public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                 if(response.isSuccessful()){
+                     List<Meal> meals = response.body().getMeal();
+                     // Log response data
+                     if (meals != null) {
+                         Log.d(TAG, " Meals By category:");
+                         for (Meal meal : meals) {
+                             Log.d(TAG, meal.toString());
+                         }
+                     } else {
+                         Log.d(TAG, " Meals: null");
+                     }
+                     // Now you can pass the randomMeals to the callback
+                     networkCallback.onSuccessResult(meals);
+                 } else {
+                     Log.e(TAG, "Response not successful: " + response.code());
+                 }
+             }
+
+             @Override
+             public void onFailure(Call<MealResponse> call, Throwable t) {
+                 networkCallback.onFailureResult(t.getMessage());
+                 Log.i(TAG, "onFailure Random Mail: "+t.getMessage());
+
+             }
+         });
+     }
+
+     public void mealByIdNetworkCall(NetworkCallback networkCallback ,String idMeal) {
+         Gson gson = new GsonBuilder().setLenient().create();
+         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).build();
+         MealService mealService = retrofit.create(MealService.class);
+         Call<MealResponse> call = mealService.getMealById(idMeal);
+         call.enqueue(new Callback<MealResponse>() {
+
+             @Override
+             public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                 if (response.isSuccessful()) {
+                     List<Meal> meals = response.body().getMeal();
+                     // Log response data
+                     if (meals != null) {
+                         Log.d(TAG, " Meals By id:");
+                         for (Meal meal : meals) {
+                             Log.d(TAG, meal.toString());
+                         }
+                     } else {
+                         Log.d(TAG, " Meals: null");
+                     }
+                     // Now you can pass the randomMeals to the callback
+                     networkCallback.onSuccessResult(meals);
+                 } else {
+                     Log.e(TAG, "Response not successful: " + response.code());
+                 }
+             }
+
+             @Override
+             public void onFailure(Call<MealResponse> call, Throwable t) {
+                 networkCallback.onFailureResult(t.getMessage());
+                 Log.i(TAG, "onFailure Random Mail: " + t.getMessage());
+             }
+         });
+     }
 }
+
+

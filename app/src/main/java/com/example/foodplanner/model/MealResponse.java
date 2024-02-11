@@ -4,11 +4,13 @@ import java.util.List;
 
 public class MealResponse {
     List<Categories>  categories;
-    List<RandomMeal>   meals;
+    List<Meal>   meals;
     public List<Categories> getCategories() {
         return categories;
     }
-    public List<RandomMeal> getRandomMeal() {
+    public List<Meal> getMeal() {
         return meals;
     }
+
+
 }

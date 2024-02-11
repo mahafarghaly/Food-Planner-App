@@ -1,6 +1,7 @@
 package com.example.foodplanner.homefrag.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.R;
+import com.example.foodplanner.mealbycategory.view.MealByCategoryActivity;
 import com.example.foodplanner.model.Categories;
 
 import java.util.ArrayList;
@@ -53,13 +55,16 @@ public class CategoriesAdapter extends RecyclerView.Adapter <CategoriesAdapter.V
         holder.titleTextView.setText(category.getStrCategory());
         //holder.priceTextView.setText("Price: " + (category.getPrice()));
         Glide.with(context).load(category.getStrCategoryThumb()).into(holder.imageView);
-//        holder.btn_add.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                //listener.onProductClick(currentProduct);
-//            }
-//        });
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Context context = v.getContext();
+                Intent intent = new Intent(context, MealByCategoryActivity.class);
+                intent.putExtra("category", category);
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -75,9 +80,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter <CategoriesAdapter.V
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.tv_random_name);
+            titleTextView = itemView.findViewById(R.id.tv_category_name);
            // priceTextView = itemView.findViewById(R.id.tv_product_price);
-            imageView = itemView.findViewById(R.id.iv_random);
+            imageView = itemView.findViewById(R.id.iv_category);
            // btn_add=itemView.findViewById(R.id.btn_add);
 
         }
