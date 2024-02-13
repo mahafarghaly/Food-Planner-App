@@ -27,6 +27,20 @@
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_launcher_foreground" />
 
+        <ImageButton
+            android:id="@+id/btn_add_cm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/circle_background"
+            android:backgroundTint="@color/white"
+            android:minWidth="40dp"
+            android:minHeight="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/favorite" />
+
         <TextView
             android:id="@+id/tv_meal_name"
             android:layout_width="0dp"
@@ -43,11 +57,11 @@
             android:textAlignment="center"
             android:textColor="#0F100F"
             android:textColorHint="#100F10"
-            android:textSize="24sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/view2"
             app:layout_constraintStart_toStartOf="@+id/view2"
-            app:layout_constraintTop_toTopOf="@+id/view2" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_meal" />
 
         <View
             android:id="@+id/view2"

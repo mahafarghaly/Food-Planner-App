@@ -28,10 +28,12 @@ public void getCategories(){
         _repo.getRandomMeal(this);
     }
 
-    //@Override
-//public void addToFav(Product product){
-//        _repo.insertProduct(product);
-//}
+
+
+    @Override
+public void addToFav(Meal meal){
+        _repo.insertMeal(meal);
+}
 
 //    @Override
 //    public void onSuccessResult(List meal) {

@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "Random_table")
+@Entity(tableName = "Meal_table")
 public class Meal implements Serializable {
     public Meal(@NonNull String idMeal, String strMeal, String strCategory, String strArea, String strInstructions, String strMealThumb, String strYoutube, String strIngredient1, String strIngredient2, String strIngredient3, String strIngredient4, String strIngredient5, String strIngredient6, String strIngredient7, String strIngredient8, String strIngredient9, String strIngredient10, String strIngredient11, String trMeasure1, String trMeasure2, String trMeasure3, String trMeasure4, String trMeasure5, String trMeasure6, String trMeasure7, String trMeasure8, String trMeasure9, String trMeasure10, String trMeasure11) {
         this.idMeal = idMeal;

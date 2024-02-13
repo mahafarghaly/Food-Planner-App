@@ -46,7 +46,14 @@ public class HomeActivity extends AppCompatActivity {
                 navController.navigate(R.id.yourPlanFragment);
                 Log.i(TAG, "plan: ");
 
-            }
+            }else if(item.getItemId()== R.id.favoriteFragment){
+                    navController.navigate(R.id.favoriteFragment);
+                    Log.i(TAG, "favorite: ");
+                }
+        else if(item.getItemId()== R.id.searchFragment){
+            navController.navigate(R.id.searchFragment);
+            Log.i(TAG, "search: ");
+        }
       return true;
 
         });

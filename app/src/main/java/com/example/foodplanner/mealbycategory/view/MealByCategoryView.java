@@ -7,4 +7,5 @@ import java.util.List;
 public interface MealByCategoryView {
     public void showMealByCategory(List<Meal> meals);
     public void showErrMsg(String error);
+    public void addMeal(Meal meal);
 }

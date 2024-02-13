@@ -2,6 +2,7 @@ package com.example.foodplanner.mealbycategory.presenter;
 
 import com.example.foodplanner.homefrag.view.HomeFragmentView;
 import com.example.foodplanner.mealbycategory.view.MealByCategoryView;
+import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.model.MealRepository;
 import com.example.foodplanner.network.NetworkCallback;
 
@@ -34,6 +35,10 @@ public class MealByCategoryPresenterImpl implements NetworkCallback, MealByCateg
         _repo.getMealByCategory(this,category);
     }
 
+    @Override
+    public void addToFav(Meal meal) {
+        _repo.insertMeal(meal);
+    }
 
 
 }

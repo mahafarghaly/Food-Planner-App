@@ -13,8 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.foodplanner.R;
+import com.example.foodplanner.db.MealLocalDataSource;
 import com.example.foodplanner.homefrag.presenter.HomeFragPresenter;
 import com.example.foodplanner.homefrag.presenter.HomeFragPresenterImpl;
 import com.example.foodplanner.homefrag.view.adapter.CategoriesAdapter;
@@ -28,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeFragment extends Fragment implements HomeFragmentView {
+public class HomeFragment extends Fragment implements HomeFragmentView , OnMealClickListener{
 
     public HomeFragment() {
         // Required empty public constructor
@@ -67,9 +69,9 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);// Use getContext() to get the context of the fragment
         categoriesAdapter = new CategoriesAdapter(getContext(), new ArrayList<>());
         homeFragPresenter = new HomeFragPresenterImpl(this,
-                MealRepository.getInstance(MealRemoteDataSource.getInstance()
-                        // ProductLocalDataSource.getInstance(this)
-                ));
+                MealRepository.getInstance(MealRemoteDataSource.getInstance(),
+                        MealLocalDataSource.getInstance(getContext()
+                )));
         categoriesRecyclerView.setLayoutManager(linearLayoutManager);
         categoriesRecyclerView.setAdapter(categoriesAdapter);
         homeFragPresenter.getCategories();
@@ -77,10 +79,10 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         /**Random  Meal**********************************/
         linearLayoutManager2 = new LinearLayoutManager(getContext());
         linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);// Use getContext() to get the context of the fragment
-        mealAdapter = new MealAdapter(getContext(), new ArrayList<>());
+        mealAdapter = new MealAdapter(getContext(), new ArrayList<>(),this);
         homeFragPresenter = new HomeFragPresenterImpl(this,
-                MealRepository.getInstance(MealRemoteDataSource.getInstance()
-                        // ProductLocalDataSource.getInstance(this)
+                MealRepository.getInstance(MealRemoteDataSource.getInstance(),
+                      MealLocalDataSource.getInstance(getContext())
                 ));
         randomRecyclerView.setLayoutManager(linearLayoutManager2);
         randomRecyclerView.setAdapter(mealAdapter);
@@ -107,8 +109,8 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
     }
 
     @Override
-    public void addProduct(Categories product) {
-
+    public void addMeal(Meal meal) {
+        homeFragPresenter.addToFav(meal);
     }
 
     @Override
@@ -116,5 +118,12 @@ public class HomeFragment extends Fragment implements HomeFragmentView {
         mealAdapter.setRandomMealList(meals);
         mealAdapter.notifyDataSetChanged();
         Log.i(TAG, "showRandomData: ");
+    }
+
+    @Override
+    public void onMealClick(Meal meal) {
+addMeal(meal);
+Toast.makeText(getContext(),"Added to favorite",Toast.LENGTH_SHORT).show();
+
     }
 }

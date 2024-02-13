@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.R;
+import com.example.foodplanner.db.MealLocalDataSource;
 import com.example.foodplanner.detail.presenter.DetailActivityPresenterImpl;
 import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.model.MealRepository;
@@ -31,8 +32,8 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView{
         Meal meal = (Meal) intent.getSerializableExtra("meal");
         //String mealId = getIntent().getStringExtra("mealId");
         presenter = new DetailActivityPresenterImpl(this,
-                MealRepository.getInstance(MealRemoteDataSource.getInstance()
-                        // ProductLocalDataSource.getInstance(this)
+                MealRepository.getInstance(MealRemoteDataSource.getInstance(),
+                        MealLocalDataSource.getInstance(this)
                 ));
         presenter.getMealById(meal.getIdMeal());
 

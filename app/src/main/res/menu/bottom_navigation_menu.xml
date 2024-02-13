@@ -13,4 +13,15 @@
         android:id="@+id/yourPlanFragment"
         android:title="My Plan"
         android:icon="@drawable/view_agenda" />
+    <item
+        android:id="@+id/favoriteFragment"
+        android:title="Favourite"
+        android:icon="@drawable/favorite"
+        />
+
+    <item
+        android:id="@+id/searchFragment"
+        android:title="Search"
+        android:icon="@drawable/search"
+        />
 </menu>

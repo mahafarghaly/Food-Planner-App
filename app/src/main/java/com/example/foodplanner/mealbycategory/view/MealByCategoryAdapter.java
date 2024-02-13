@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class MealByCategoryAdapter extends RecyclerView.Adapter <MealByCategoryA
     private Context context;
 
     private List<Meal> mealList;
+    OnMealByCatClickListener listener;
 
     public List<Meal> getRandomMealList() {
         return mealList;
@@ -34,9 +36,10 @@ public class MealByCategoryAdapter extends RecyclerView.Adapter <MealByCategoryA
         notifyDataSetChanged();
     }
 
-    public MealByCategoryAdapter(Context context, List<Meal> meals) {
+    public MealByCategoryAdapter(Context context, List<Meal> meals,OnMealByCatClickListener _listener) {
         this.context = context;
         this.mealList = meals;
+        this.listener=_listener;
         meals =new ArrayList<Meal>();
     }
 
@@ -69,6 +72,14 @@ public class MealByCategoryAdapter extends RecyclerView.Adapter <MealByCategoryA
 //                context.startActivity(intent);
             }
         });
+        holder.btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                listener.onMealClick(meal);
+
+            }
+        });
 
     }
 
@@ -80,14 +91,14 @@ public class MealByCategoryAdapter extends RecyclerView.Adapter <MealByCategoryA
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView, priceTextView;
         public ImageView imageView;
-        // public Button btn_add;
+         public ImageButton btn_add;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.tv_meal_name);
             // priceTextView = itemView.findViewById(R.id.tv_product_price);
             imageView = itemView.findViewById(R.id.iv_meal);
-            // btn_add=itemView.findViewById(R.id.btn_add);
+             btn_add=itemView.findViewById(R.id.btn_add_cm);
 
         }
     }

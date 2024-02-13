@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.R;
+import com.example.foodplanner.db.MealLocalDataSource;
 import com.example.foodplanner.homefrag.presenter.HomeFragPresenterImpl;
 import com.example.foodplanner.homefrag.view.adapter.CategoriesAdapter;
 import com.example.foodplanner.mealbycategory.presenter.MealByCategoryPresenter;
@@ -26,7 +28,7 @@ import com.example.foodplanner.network.MealRemoteDataSource;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MealByCategoryActivity extends AppCompatActivity implements  MealByCategoryView{
+public class MealByCategoryActivity extends AppCompatActivity implements  MealByCategoryView,OnMealByCatClickListener{
     TextView tv_category;//,tv_country,tv_instructions,tv_meal_name;//
     ImageView categoryImage;
     LinearLayoutManager linearLayoutManager;
@@ -50,10 +52,10 @@ public class MealByCategoryActivity extends AppCompatActivity implements  MealBy
 ///****************************************//
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);// Use getContext() to get the context of the fragment
-        mealByCategoryAdapter = new MealByCategoryAdapter(this, new ArrayList<>());
+        mealByCategoryAdapter = new MealByCategoryAdapter(this, new ArrayList<>(),this);
         mealByCategoryPresenter = new MealByCategoryPresenterImpl(this,
-                MealRepository.getInstance(MealRemoteDataSource.getInstance()
-                        // ProductLocalDataSource.getInstance(this)
+                MealRepository.getInstance(MealRemoteDataSource.getInstance(),
+                       MealLocalDataSource.getInstance(this)
                 ));
 
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
@@ -76,5 +78,17 @@ public class MealByCategoryActivity extends AppCompatActivity implements  MealBy
         builder.setMessage(error).setTitle("An Error Occurred");
         AlertDialog dialog=builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void addMeal(Meal meal) {
+mealByCategoryPresenter.addToFav(meal);
+    }
+
+    @Override
+    public void onMealClick(Meal meal) {
+addMeal(meal);
+  Toast.makeText(this,"Added to favorite",Toast.LENGTH_SHORT).show();
+
     }
 }

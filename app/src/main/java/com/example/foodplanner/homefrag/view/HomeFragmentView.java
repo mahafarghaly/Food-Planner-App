@@ -8,6 +8,7 @@ import java.util.List;
 public interface HomeFragmentView {
     public void showData(List<Categories> categories);
     public void showErrMsg(String error);
-    public void addProduct(Categories product);
+    public void addMeal(Meal meal);
     public void showRandom(List<Meal> meals);
+
 }
