@@ -12,11 +12,17 @@ import android.util.Log;
 
 import com.example.foodplanner.R;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
 //ActivityHomeBinding binding;
     String TAG="HomeActivity";
+    private GoogleSignInClient gsc;
+    private GoogleSignInOptions gso;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +50,18 @@ public class HomeActivity extends AppCompatActivity {
       return true;
 
         });
-
-
+        //google SignIn
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount acct=GoogleSignIn.getLastSignedInAccount(this);
+        if(acct!=null){
+        String personame= acct.getDisplayName();
+        String personEmail=acct.getEmail();
+           // String personName=acct.getDisplayName();
+            //any data want to display
+        }
     }
+
+
 
 }

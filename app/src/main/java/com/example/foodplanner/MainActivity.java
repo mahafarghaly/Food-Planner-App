@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.foodplanner.signup.SignUpActivity;
+
 public class MainActivity extends AppCompatActivity {
 Button button;
 TextView textView;
@@ -20,7 +22,7 @@ TextView textView;
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                startActivity(new Intent(MainActivity.this, SignUpActivity.class));
 
             }
         });
