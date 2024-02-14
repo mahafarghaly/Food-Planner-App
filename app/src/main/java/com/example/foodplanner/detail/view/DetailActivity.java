@@ -4,10 +4,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.R;
@@ -46,9 +48,14 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView{
         tv_category=findViewById(R.id.tv_category);
         tv_country=findViewById(R.id.tv_country);
         tv_instructions=findViewById(R.id.tv_instructions);
-        tv_measure=findViewById(R.id.tv_ingrdiant);
+        tv_ingredient=findViewById(R.id.tv_ingrdiant);
         tv_measure=findViewById(R.id.tv_messure);
         //******************************************//
+//        VideoView videoView = findViewById(R.id.videoView);
+//        String videoPath = "android.resource://" ;
+//        Uri uri = Uri.parse(videoPath);
+//        videoView.setVideoURI(uri);
+//        videoView.start();
 
     }
 
@@ -67,18 +74,19 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView{
     @Override
     public void showMealById(List<Meal> meals) {
         if (meals != null && !meals.isEmpty()) {
-            Meal meal = meals.get(0); // Assuming you only expect one meal
+            Meal meal = meals.get(0);
+            // Assuming you only expect one meal
             // Populate UI elements with meal details
             tv_meal_name.setText(meal.getStrMeal());
             Glide.with(this).load(meal.getStrMealThumb()).placeholder(R.drawable.ic_launcher_foreground).into(mealImage);
             tv_category.setText(meal.getStrCategory());
             tv_country.setText(meal.getStrArea());
             tv_instructions.setText(meal.getStrInstructions());
-            //if(!meal.getStrIngredient1().isEmpty()){
-//                tv_ingredient.setText(meal.getStrIngredient1());
-//                tv_measure.setText(meal.getTrMeasure1());
-               // ingredient.append("\n \u2022"+meal.getStrIngredient1());
-           // }
+           // if(!meal.getStrIngredient1().isEmpty()){
+                tv_ingredient.setText(meal.getStrIngredient1());
+                tv_measure.setText(meal.getTrMeasure1());
+               // tv_ingredient.append("\n \u2022"+meal.getStrIngredient1());
+            //}
         }
     }
 //

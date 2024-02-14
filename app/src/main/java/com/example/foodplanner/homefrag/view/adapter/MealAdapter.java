@@ -76,6 +76,8 @@ public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Intent intent = new Intent(context, DetailActivity.class);
             intent.putExtra("meal", meal);
             context.startActivity(intent);
+
+
         }
     });
 

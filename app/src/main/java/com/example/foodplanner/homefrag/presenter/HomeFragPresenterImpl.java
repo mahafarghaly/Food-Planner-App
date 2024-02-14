@@ -1,38 +1,100 @@
 package com.example.foodplanner.homefrag.presenter;
 
 
+import android.util.Log;
+
 import com.example.foodplanner.homefrag.view.HomeFragmentView;
 import com.example.foodplanner.model.Categories;
 import com.example.foodplanner.model.MealRepository;
 import com.example.foodplanner.model.Meal;
-import com.example.foodplanner.network.NetworkCallback;
+import com.example.foodplanner.model.MealResponse;
+
 
 import java.util.List;
 
-public class HomeFragPresenterImpl implements NetworkCallback, HomeFragPresenter {
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
+public class HomeFragPresenterImpl implements HomeFragPresenter {
 
 private HomeFragmentView _view;
 private MealRepository _repo;
-
+    private static final String TAG = "HomeFragPresenterImpl";
     public HomeFragPresenterImpl(HomeFragmentView _view , MealRepository _repo) {
         this._view = _view;
         this._repo = _repo;
     }
 @Override
 public void getCategories(){
-        _repo.getAllCategories(this);
+        _repo.getAllCategories()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MealResponse>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull MealResponse mealResponse) {
+                        _view.showData(mealResponse.getCategories());
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
 }
 
     @Override
     public void getRandomMeal() {
-        _repo.getRandomMeal(this);
+        _repo.getRandomMeal()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MealResponse>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull MealResponse productsResponse) {
+                        _view.showRandom(productsResponse.getMeal());
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        _view.showErrMsg(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
 
 
     @Override
 public void addToFav(Meal meal){
-        _repo.insertMeal(meal);
+        _repo.insertMeal(meal)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(()->{
+                            Log.i(TAG, "addToFav: onSuccess insert");
+                        },
+                        error->{
+                            Log.i(TAG, "addToFav: on error insert");
+                        }
+                );
 }
 
 //    @Override
@@ -41,23 +103,23 @@ public void addToFav(Meal meal){
 //  _view.showRandom(meal);
 //
 //    }
-@Override
-public void onSuccessResult(List meal) {
-    if (meal.get(0) instanceof Categories) {
-        // Handle categories data
-        _view.showData(meal);
-    } else if (meal.get(0) instanceof Meal) {
-        // Handle random meal data
-        _view.showRandom(meal);
-    }
-}
-
-
-
-
-    @Override
-    public void onFailureResult(String errorMsg) {
-
-        _view.showErrMsg(errorMsg);
-    }
+//@Override
+//public void onSuccessResult(List meal) {
+//    if (meal.get(0) instanceof Categories) {
+//        // Handle categories data
+//        _view.showData(meal);
+//    } else if (meal.get(0) instanceof Meal) {
+//        // Handle random meal data
+//        _view.showRandom(meal);
+//    }
+//}
+//
+//
+//
+//
+//    @Override
+//    public void onFailureResult(String errorMsg) {
+//
+//        _view.showErrMsg(errorMsg);
+//    }
 }

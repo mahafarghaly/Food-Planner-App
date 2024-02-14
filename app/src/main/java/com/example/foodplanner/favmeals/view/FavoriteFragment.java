@@ -29,6 +29,10 @@ import com.example.foodplanner.network.MealRemoteDataSource;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 
 public class FavoriteFragment extends Fragment implements FavMealView,OnFavoriteClickListener  {
 
@@ -66,25 +70,22 @@ public class FavoriteFragment extends Fragment implements FavMealView,OnFavorite
         favRecyclerView.setLayoutManager(linearLayoutManager);
         favRecyclerView.setAdapter(favAdapter);
         favPresenter.getStoredMeals();
+        showData();
 
-        AppDatabase db=AppDatabase.getInstance(getContext());
-        MealDAO dao=db.mealDAO();
-        LiveData<List<Meal>> myproduct=dao.getAllMeals();
-        myproduct.observe(getViewLifecycleOwner(), new Observer<List<Meal>>() {
-
-            @Override
-            public void onChanged(List<Meal> meals) {
-
-                favAdapter.setList(meals);
-            }
-        });
 
     }
 
     @Override
-    public void showData(List<Meal> meals) {
-        favAdapter.setList(meals);
-        favAdapter.notifyDataSetChanged();
+    public void showData( /*List<Meal> meals*/) {
+        Flowable<List<Meal>> data=  favPresenter.getStoredMeals();
+        data.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(meals ->{
+                    favAdapter.setList( meals);
+                    favAdapter.notifyDataSetChanged();
+                } );
+//        favAdapter.setList(meals);
+//        favAdapter.notifyDataSetChanged();
     }
 
     @Override

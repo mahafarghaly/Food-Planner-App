@@ -110,6 +110,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView , OnMealC
 
     @Override
     public void addMeal(Meal meal) {
+
         homeFragPresenter.addToFav(meal);
     }
 

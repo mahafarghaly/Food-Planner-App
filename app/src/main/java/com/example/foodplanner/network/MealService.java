@@ -2,19 +2,20 @@ package com.example.foodplanner.network;
 
 import com.example.foodplanner.model.MealResponse;
 
+import io.reactivex.rxjava3.core.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface MealService {
     @GET("categories.php")
-    Call<MealResponse> getCategories();
+    Observable<MealResponse> getCategories();
     @GET("random.php")
-    Call<MealResponse> getMeal();
+    Observable<MealResponse> getMeal();
     @GET("filter.php")
-    Call<MealResponse> getMealByCategory(@Query("c")String category);
+    Observable<MealResponse> getMealByCategory(@Query("c")String category);
     @GET("lookup.php")
-    Call<MealResponse> getMealById(@Query("i")String strMeal);
+    Observable<MealResponse> getMealById(@Query("i")String strMeal);
 
 
 }

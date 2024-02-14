@@ -1,6 +1,7 @@
 package com.example.foodplanner.favmeals.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.R;
+import com.example.foodplanner.detail.view.DetailActivity;
 import com.example.foodplanner.model.Meal;
 
 import java.util.ArrayList;
@@ -55,6 +57,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
 //        Glide.with(holder.imageView.getContext())
 //                .load(currentProduct.getThumbnails())
 //                .into(holder.imageView);
+
         Glide.with(context).load(currentmeal.getStrMealThumb()).into(holder.imageView);
         holder.btn_remove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +65,18 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                 listener.onFavoriteMealClick(currentmeal);
             }
         });
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle click event
+                // Open the meal details fragment
+                Context context = v.getContext();
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("meal", currentmeal);
+                context.startActivity(intent);
 
+            }
+        });
     }
 
     @Override

@@ -12,12 +12,15 @@ import com.example.foodplanner.model.Meal;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+
 @Dao
 public interface MealDAO {
     @Query("SELECT * FROM Meal_table")
-    LiveData<List<Meal>> getAllMeals();
+    Flowable<List<Meal>> getAllMeals();
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insert(Meal meal);
+    Completable insert(Meal meal);
 
     @Delete
     void delete(Meal meal);

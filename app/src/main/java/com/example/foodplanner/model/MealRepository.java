@@ -4,9 +4,13 @@ import androidx.lifecycle.LiveData;
 
 import com.example.foodplanner.db.MealLocalDataSource;
 import com.example.foodplanner.network.MealRemoteDataSource;
-import com.example.foodplanner.network.NetworkCallback;
+
 
 import java.util.List;
+
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
 
 public class MealRepository {
     MealRemoteDataSource remoteDataSource;
@@ -23,26 +27,26 @@ public class MealRepository {
         this.localDataSource=localDataSource;
     }
 
-    public void getAllCategories(NetworkCallback networkCallback){
-        remoteDataSource.makeNetworkCall((networkCallback));
+    public Observable<MealResponse> getAllCategories( ){
+        return remoteDataSource.makeNetworkCall();
     }
 
-    public void getRandomMeal(NetworkCallback networkCallback){
-        remoteDataSource.randomNetworkCall((networkCallback));
+    public Observable<MealResponse> getRandomMeal(){
+        return remoteDataSource.randomNetworkCall();
     }
-    public void getMealByCategory(NetworkCallback networkCallback ,String category){
-        remoteDataSource.mealByCatNetworkCall(networkCallback,category);
+    public Observable<MealResponse> getMealByCategory(String category){
+       return  remoteDataSource.mealByCatNetworkCall(category);
     }
-    public void getMealById(NetworkCallback networkCallback,String strMeal){
-        remoteDataSource.mealByIdNetworkCall(networkCallback,strMeal);
+    public Observable<MealResponse> getMealById(String strMeal){
+        return remoteDataSource.mealByIdNetworkCall(strMeal);
     }
 
 
-    public LiveData<List<Meal>> getStoredData(){
+    public Flowable<List<Meal>> getStoredData(){
         return localDataSource.getStoredData();
     }
-    public void insertMeal(Meal meal){
-        localDataSource.insert(meal);
+    public Completable insertMeal(Meal meal){
+        return localDataSource.insert(meal);
     }
     public void deleteMeal(Meal meal){
         localDataSource.delete(meal);

@@ -8,10 +8,13 @@ import com.example.foodplanner.model.Meal;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+
 public class MealLocalDataSource {
     private Context context;
     private MealDAO mealDAO;
-    private LiveData<List<Meal>> storedMeal;
+    private Flowable<List<Meal>> storedMeal;
     private  static MealLocalDataSource repository=null;
 
     private MealLocalDataSource(Context _context){
@@ -29,7 +32,8 @@ public class MealLocalDataSource {
         }
         return  repository;
     }
-    public LiveData<List<Meal>> getStoredData(){
+    public Flowable<List<Meal>> getStoredData(){
+
         return storedMeal;
     }
 
@@ -42,13 +46,8 @@ public class MealLocalDataSource {
         }).start();
     }
 
-    public void insert(Meal meal){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mealDAO.insert(meal);
-            }
-        }).start();
+    public Completable insert(Meal meal){
+        return mealDAO.insert(meal);
     }
 
 }
