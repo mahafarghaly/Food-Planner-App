@@ -20,6 +20,7 @@ import com.example.foodplanner.db.MealLocalDataSource;
 import com.example.foodplanner.homefrag.presenter.HomeFragPresenter;
 import com.example.foodplanner.homefrag.presenter.HomeFragPresenterImpl;
 import com.example.foodplanner.homefrag.view.adapter.CategoriesAdapter;
+import com.example.foodplanner.homefrag.view.adapter.CountryAdapter;
 import com.example.foodplanner.homefrag.view.adapter.MealAdapter;
 import com.example.foodplanner.model.Categories;
 import com.example.foodplanner.model.MealRepository;
@@ -36,12 +37,12 @@ public class HomeFragment extends Fragment implements HomeFragmentView , OnMealC
         // Required empty public constructor
     }
 
-    RecyclerView categoriesRecyclerView,randomRecyclerView;
+    RecyclerView categoriesRecyclerView,randomRecyclerView,countryRecyclerView;
     CategoriesAdapter categoriesAdapter;
     MealAdapter mealAdapter;
-
+CountryAdapter countryAdapter;
     HomeFragPresenter homeFragPresenter;
-    LinearLayoutManager linearLayoutManager,linearLayoutManager2;
+    LinearLayoutManager linearLayoutManager,linearLayoutManager2,linearLayoutManager3;
 
  String TAG ="HomeFragment";
     @Override
@@ -57,6 +58,7 @@ public class HomeFragment extends Fragment implements HomeFragmentView , OnMealC
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         categoriesRecyclerView = view.findViewById(R.id.rv_categories); // Find RecyclerView here
         randomRecyclerView =  view.findViewById(R.id.rv_random);
+        countryRecyclerView= view.findViewById(R.id.rv_countries);
         return view;
       
     }
@@ -88,6 +90,19 @@ public class HomeFragment extends Fragment implements HomeFragmentView , OnMealC
         randomRecyclerView.setAdapter(mealAdapter);
         homeFragPresenter.getRandomMeal();
         Log.i(TAG, "onViewCreated2222222222: ");
+        /*Countries *********************************/
+        linearLayoutManager3= new LinearLayoutManager(getContext());
+        linearLayoutManager3.setOrientation(LinearLayoutManager.HORIZONTAL);// Use getContext() to get the context of the fragment
+        countryAdapter = new CountryAdapter(getContext(), new ArrayList<>());
+        homeFragPresenter = new HomeFragPresenterImpl(this,
+                MealRepository.getInstance(MealRemoteDataSource.getInstance(),
+                        MealLocalDataSource.getInstance(getContext())
+                ));
+        countryRecyclerView.setLayoutManager(linearLayoutManager3);
+        countryRecyclerView.setAdapter(countryAdapter);
+        homeFragPresenter.getCountries();
+        Log.i(TAG, "onViewCreated33333333333: ");
+
     }
 
 
@@ -119,6 +134,14 @@ public class HomeFragment extends Fragment implements HomeFragmentView , OnMealC
         mealAdapter.setRandomMealList(meals);
         mealAdapter.notifyDataSetChanged();
         Log.i(TAG, "showRandomData: ");
+    }
+
+    @Override
+    public void showCountry(List<Meal> country) {
+countryAdapter.setCountryList(country);
+countryAdapter.notifyDataSetChanged();
+Log.i(TAG, "showCountries: ");
+
     }
 
     @Override

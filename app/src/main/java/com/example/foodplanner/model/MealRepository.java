@@ -40,6 +40,12 @@ public class MealRepository {
     public Observable<MealResponse> getMealById(String strMeal){
         return remoteDataSource.mealByIdNetworkCall(strMeal);
     }
+    public Observable<MealResponse> getAllCountries(){
+        return remoteDataSource.areNetworkCall();
+    }
+    public Observable<MealResponse> getMealByArea(String area){
+        return remoteDataSource.mealByAreaNetworkCall(area);
+    }
 
 
     public Flowable<List<Meal>> getStoredData(){

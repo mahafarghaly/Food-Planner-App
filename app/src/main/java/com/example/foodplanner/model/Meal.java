@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Entity(tableName = "Meal_table")
 public class Meal implements Serializable {
-    public Meal(@NonNull String idMeal, String strMeal, String strCategory, String strArea, String strInstructions, String strMealThumb, String strYoutube, String strIngredient1, String strIngredient2, String strIngredient3, String strIngredient4, String strIngredient5, String strIngredient6, String strIngredient7, String strIngredient8, String strIngredient9, String strIngredient10, String strIngredient11, String trMeasure1, String trMeasure2, String trMeasure3, String trMeasure4, String trMeasure5, String trMeasure6, String trMeasure7, String trMeasure8, String trMeasure9, String trMeasure10, String trMeasure11) {
+    public Meal(@NonNull String idMeal, String strMeal, String strCategory, String strArea, String strInstructions, String strMealThumb, String strYoutube, String strIngredient1, String strIngredient2, String strIngredient3, String strIngredient4, String strIngredient5, String strIngredient6, String strIngredient7, String strIngredient8, String strIngredient9, String strIngredient10, String strIngredient11, String strMeasure1, String strMeasure2, String strMeasure3, String strMeasure4, String strMeasure5, String strMeasure6, String strMeasure7, String strMeasure8, String strMeasure9, String strMeasure10, String strMeasure11) {
         this.idMeal = idMeal;
         this.strMeal = strMeal;
         this.strCategory = strCategory;
@@ -27,17 +27,17 @@ public class Meal implements Serializable {
         this.strIngredient9 = strIngredient9;
         this.strIngredient10 = strIngredient10;
         this.strIngredient11 = strIngredient11;
-        this.trMeasure1 = trMeasure1;
-        this.trMeasure2 = trMeasure2;
-        this.trMeasure3 = trMeasure3;
-        this.trMeasure4 = trMeasure4;
-        this.trMeasure5 = trMeasure5;
-        this.trMeasure6 = trMeasure6;
-        this.trMeasure7 = trMeasure7;
-        this.trMeasure8 = trMeasure8;
-        this.trMeasure9 = trMeasure9;
-        this.trMeasure10 = trMeasure10;
-        this.trMeasure11 = trMeasure11;
+        this.strMeasure1 = strMeasure1;
+        this.strMeasure2 = strMeasure2;
+        this.strMeasure3 = strMeasure3;
+        this.strMeasure4 = strMeasure4;
+        this.strMeasure5 = strMeasure5;
+        this.strMeasure6 = strMeasure6;
+        this.strMeasure7 = strMeasure7;
+        this.strMeasure8 = strMeasure8;
+        this.strMeasure9 = strMeasure9;
+        this.strMeasure10 = strMeasure10;
+        this.strMeasure11 = strMeasure11;
     }
 
     @PrimaryKey
@@ -61,17 +61,17 @@ public class Meal implements Serializable {
     private String strIngredient9;
     private String strIngredient10;
     private String strIngredient11;
-    private String trMeasure1;
-    private String trMeasure2;
-    private String trMeasure3;
-    private String trMeasure4;
-    private String trMeasure5;
-    private String trMeasure6;
-    private String trMeasure7;
-    private String trMeasure8;
-    private String trMeasure9;
-    private String trMeasure10;
-    private String trMeasure11;
+    private String strMeasure1;
+    private String strMeasure2;
+    private String strMeasure3;
+    private String strMeasure4;
+    private String strMeasure5;
+    private String strMeasure6;
+    private String strMeasure7;
+    private String strMeasure8;
+    private String strMeasure9;
+    private String strMeasure10;
+    private String strMeasure11;
 
     @NonNull
     public String getIdMeal() {
@@ -218,92 +218,93 @@ public class Meal implements Serializable {
         this.strIngredient11 = strIngredient11;
     }
 
-    public String getTrMeasure1() {
-        return trMeasure1;
+
+    public String getStrMeasure1() {
+        return strMeasure1;
     }
 
-    public void setTrMeasure1(String trMeasure1) {
-        this.trMeasure1 = trMeasure1;
+    public void setStrMeasure1(String strMeasure1) {
+        this.strMeasure1 = strMeasure1;
     }
 
-    public String getTrMeasure2() {
-        return trMeasure2;
+    public String getStrMeasure2() {
+        return strMeasure2;
     }
 
-    public void setTrMeasure2(String trMeasure2) {
-        this.trMeasure2 = trMeasure2;
+    public void setStrMeasure2(String strMeasure2) {
+        this.strMeasure2 = strMeasure2;
     }
 
-    public String getTrMeasure3() {
-        return trMeasure3;
+    public String getStrMeasure3() {
+        return strMeasure3;
     }
 
-    public void setTrMeasure3(String trMeasure3) {
-        this.trMeasure3 = trMeasure3;
+    public void setStrMeasure3(String strMeasure3) {
+        this.strMeasure3 = strMeasure3;
     }
 
-    public String getTrMeasure4() {
-        return trMeasure4;
+    public String getStrMeasure4() {
+        return strMeasure4;
     }
 
-    public void setTrMeasure4(String trMeasure4) {
-        this.trMeasure4 = trMeasure4;
+    public void setStrMeasure4(String strMeasure4) {
+        this.strMeasure4 = strMeasure4;
     }
 
-    public String getTrMeasure5() {
-        return trMeasure5;
+    public String getStrMeasure5() {
+        return strMeasure5;
     }
 
-    public void setTrMeasure5(String trMeasure5) {
-        this.trMeasure5 = trMeasure5;
+    public void setStrMeasure5(String strMeasure5) {
+        this.strMeasure5 = strMeasure5;
     }
 
-    public String getTrMeasure6() {
-        return trMeasure6;
+    public String getStrMeasure6() {
+        return strMeasure6;
     }
 
-    public void setTrMeasure6(String trMeasure6) {
-        this.trMeasure6 = trMeasure6;
+    public void setStrMeasure6(String strMeasure6) {
+        this.strMeasure6 = strMeasure6;
     }
 
-    public String getTrMeasure7() {
-        return trMeasure7;
+    public String getStrMeasure7() {
+        return strMeasure7;
     }
 
-    public void setTrMeasure7(String trMeasure7) {
-        this.trMeasure7 = trMeasure7;
+    public void setStrMeasure7(String strMeasure7) {
+        this.strMeasure7 = strMeasure7;
     }
 
-    public String getTrMeasure8() {
-        return trMeasure8;
+    public String getStrMeasure8() {
+        return strMeasure8;
     }
 
-    public void setTrMeasure8(String trMeasure8) {
-        this.trMeasure8 = trMeasure8;
+    public void setStrMeasure8(String strMeasure8) {
+        this.strMeasure8 = strMeasure8;
     }
 
-    public String getTrMeasure9() {
-        return trMeasure9;
+    public String getStrMeasure9() {
+        return strMeasure9;
     }
 
-    public void setTrMeasure9(String trMeasure9) {
-        this.trMeasure9 = trMeasure9;
+    public void setStrMeasure9(String strMeasure9) {
+        this.strMeasure9 = strMeasure9;
     }
 
-    public String getTrMeasure10() {
-        return trMeasure10;
+    public String getStrMeasure10() {
+        return strMeasure10;
     }
 
-    public void setTrMeasure10(String trMeasure10) {
-        this.trMeasure10 = trMeasure10;
+    public void setStrMeasure10(String strMeasure10) {
+        this.strMeasure10 = strMeasure10;
     }
 
-    public String getTrMeasure11() {
-        return trMeasure11;
+    public String getStrMeasure11() {
+        return strMeasure11;
     }
 
-    public void setTrMeasure11(String trMeasure11) {
-        this.trMeasure11 = trMeasure11;
+    public void setStrMeasure11(String strMeasure11) {
+        this.strMeasure11 = strMeasure11;
     }
 
     @Override

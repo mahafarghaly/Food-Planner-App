@@ -81,6 +81,33 @@ public void getCategories(){
                 });
     }
 
+    @Override
+    public void getCountries() {
+_repo.getAllCountries()
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Observer<MealResponse>(){
+
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull MealResponse mealResponse) {
+            _view.showCountry(mealResponse.getMeal());
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
 
 
     @Override
@@ -97,29 +124,5 @@ public void addToFav(Meal meal){
                 );
 }
 
-//    @Override
-//    public void onSuccessResult(List meal) {
-//_view.showData(meal);
-//  _view.showRandom(meal);
-//
-//    }
-//@Override
-//public void onSuccessResult(List meal) {
-//    if (meal.get(0) instanceof Categories) {
-//        // Handle categories data
-//        _view.showData(meal);
-//    } else if (meal.get(0) instanceof Meal) {
-//        // Handle random meal data
-//        _view.showRandom(meal);
-//    }
-//}
-//
-//
-//
-//
-//    @Override
-//    public void onFailureResult(String errorMsg) {
-//
-//        _view.showErrMsg(errorMsg);
-//    }
+
 }

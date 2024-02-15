@@ -10,5 +10,6 @@ public interface HomeFragmentView {
     public void showErrMsg(String error);
     public void addMeal(Meal meal);
     public void showRandom(List<Meal> meals);
+    public void showCountry(List<Meal> country);
 
 }
