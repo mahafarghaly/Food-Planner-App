@@ -58,9 +58,16 @@ public class MealRepository {
         localDataSource.delete(meal);
     }
 
+    //*****************************plan
+    public Completable insertPlan(MealPlan mealPlan){
+        return localDataSource.insertPlan(mealPlan);
+    }
+    public Flowable<List<MealPlan>> getStoredPlan(){
+        return localDataSource.getStoredPlan();
+    }
 
-
-
-
+    public void deletePlan(MealPlan mealPlan){
+        localDataSource.deletePlan(mealPlan);
+    }
 
 }

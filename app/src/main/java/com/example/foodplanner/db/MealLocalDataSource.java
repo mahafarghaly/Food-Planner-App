@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 
 import com.example.foodplanner.model.Meal;
+import com.example.foodplanner.model.MealPlan;
 
 import java.util.List;
 
@@ -14,7 +15,10 @@ import io.reactivex.rxjava3.core.Flowable;
 public class MealLocalDataSource {
     private Context context;
     private MealDAO mealDAO;
+    private MealPlanDAO mealPlanDAO;
+
     private Flowable<List<Meal>> storedMeal;
+    private Flowable<List<MealPlan>> storedPlan;
     private  static MealLocalDataSource repository=null;
 
     private MealLocalDataSource(Context _context){
@@ -22,9 +26,11 @@ public class MealLocalDataSource {
         AppDatabase db= AppDatabase.getInstance(context.getApplicationContext());
         mealDAO=db. mealDAO();
         storedMeal=mealDAO.getAllMeals();
+        //plan
+        mealPlanDAO=db.mealPlanDAO();
+        storedPlan=mealPlanDAO.getAllMealPlanItems();
 
-//        this.productList=new ArrayList<>();
-//      productList.add(new Product(1L,"1","test","Test",4.5,234,"https://cdn.dummyjson.com/product-images/1/thumbnail.jpg"));
+
     }
     public static MealLocalDataSource getInstance(Context _context){
         if(repository==null){
@@ -48,6 +54,23 @@ public class MealLocalDataSource {
 
     public Completable insert(Meal meal){
         return mealDAO.insert(meal);
+    }
+
+    // functions for Plan DB
+    public Flowable<List<MealPlan>> getStoredPlan(){
+
+        return storedPlan;
+    }
+    public Completable insertPlan(MealPlan mealPlan){
+        return mealPlanDAO.insertPlan(mealPlan);
+    }
+    public void deletePlan(MealPlan mealPlan){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mealPlanDAO.delete(mealPlan);
+            }
+        }).start();
     }
 
 }

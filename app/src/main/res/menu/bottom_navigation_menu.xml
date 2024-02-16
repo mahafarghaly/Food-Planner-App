@@ -4,10 +4,6 @@
         android:title="Home"
         android:icon="@drawable/home" />
 
-    <item
-        android:id="@+id/addRecipeFragment"
-        android:title="Add "
-        android:icon="@drawable/add_box" />
 
     <item
         android:id="@+id/yourPlanFragment"
