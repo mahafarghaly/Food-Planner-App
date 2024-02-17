@@ -105,6 +105,8 @@ public class FavoriteFragment extends Fragment implements FavMealView,OnFavorite
 
     @Override
     public void onFavoriteMealClick(Meal meal) {
-removeMeal(meal);
+
+        removeMeal(meal);
+
     }
 }

@@ -97,7 +97,7 @@ public class YourPlanFragment extends Fragment implements  PlanView,OnPlanClickL
     @Override
     public void removeMealPlan(MealPlan mealPlan) {
         planPresenter.removeFromPlan(mealPlan);
-        Toast.makeText(getContext(),"Removed from favorite",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),"Removed from Plan",Toast.LENGTH_SHORT).show();
 
     }
 

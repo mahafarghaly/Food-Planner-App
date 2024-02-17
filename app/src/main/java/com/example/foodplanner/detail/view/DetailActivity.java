@@ -134,6 +134,7 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView{
 
     @Override
     public void addPlan(MealPlan mealPlan) {
+
         presenter.addToPlan(mealPlan);
     }
 

@@ -2,5 +2,5 @@
     android:shape="oval"
     >
 
-    <solid android:color="@color/white" /> <!-- Background color of the circle -->
+    <solid android:color="@color/colorWhiteDark" /> <!-- Background color of the circle -->
 </shape>

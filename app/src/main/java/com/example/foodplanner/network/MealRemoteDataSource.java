@@ -59,6 +59,10 @@ public class MealRemoteDataSource {
         return mealService.getMealByCountry(area)
                 .subscribeOn(Schedulers.io());
     }
+    public  Observable<MealResponse>  ingredientNetworkCall(){
+        return mealService.getAllIngredient()
+                .subscribeOn(Schedulers.io());
+    }
 
 }
 

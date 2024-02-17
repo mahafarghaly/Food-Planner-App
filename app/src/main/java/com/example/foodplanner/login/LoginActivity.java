@@ -9,11 +9,14 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodplanner.R;
 import com.example.foodplanner.HomeActivity;
+import com.example.foodplanner.login.presenter.LoginPresenterImpl;
+import com.example.foodplanner.login.view.LoginView;
 import com.example.foodplanner.signup.SignUpActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -25,114 +28,78 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.checkerframework.checker.units.qual.Current;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity  extends AppCompatActivity implements LoginView {
+    private LoginPresenterImpl presenter;
     private FirebaseAuth auth;
     private EditText loginEmail, loginPassword;
-    private Button loginButton,signGoogleBtn;;
+    private Button loginButton;
+    private ImageView signGoogleBtn;
     private TextView signupRedirectText;
     private GoogleSignInClient gsc;
     private GoogleSignInOptions gso;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser != null) {
+            navigateToSecondActivity();
+        }
+
+        presenter = new LoginPresenterImpl(this);
+        auth = FirebaseAuth.getInstance();
+
         loginEmail = findViewById(R.id.login_email);
         loginPassword = findViewById(R.id.login_password);
         loginButton = findViewById(R.id.login_button);
         signupRedirectText = findViewById(R.id.signupRedirectText);
         signGoogleBtn = findViewById(R.id.btn_google);
 
-//        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-//            navigateToSecondActivity();
-//
-//        }
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-String email=loginEmail.getText().toString();
-String pass=loginPassword.getText().toString();
-if(!email.isEmpty()&& Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-    if(!pass.isEmpty()){
-        auth.signInWithEmailAndPassword(email,pass)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                        finish();
-
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(LoginActivity.this,"Login Failed",Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-    }else{
-        loginPassword.setError("Password can not be Empty");
-    }
-}else{
-    loginEmail.setError("Please Enter valid email");
-
-}
-            }
-        });
-        signupRedirectText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
-            }
+        loginButton.setOnClickListener(v -> {
+            String email = loginEmail.getText().toString().trim();
+            String password = loginPassword.getText().toString().trim();
+            presenter.login(email, password);
         });
 
+        signupRedirectText.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
 
-
-        //google sigin in
+        // Google SignIn initialization
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this, gso);
-        GoogleSignInAccount acct=GoogleSignIn.getLastSignedInAccount(this);
-        if(acct!=null){
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if (acct != null) {
             navigateToSecondActivity();
-//
-//           // String personName=acct.getDisplayName();
-//            //any data want to display
         }
-        signGoogleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
 
+        signGoogleBtn.setOnClickListener(v -> presenter.handleGoogleSignIn());
     }
-
-    void signIn() {
-        Intent signInIntent = gsc.getSignInIntent();
-        startActivityForResult(signInIntent, 1000);
-
-    }
-
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==1000){
-            Task<GoogleSignInAccount> task=GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                task.getResult(ApiException.class);
-                navigateToSecondActivity();
-            } catch (ApiException e) {
-                Toast.makeText(getApplicationContext(),"Something went wrong",Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-    void navigateToSecondActivity()  {
+    public void showLoginSuccess() {
+        Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         finish();
-        Intent intent=new Intent(LoginActivity.this, HomeActivity.class);
+    }
+
+    @Override
+    public void showLoginFailure(String message) {
+        Toast.makeText(this, "Login Failed: " + message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        presenter.onActivityResult(requestCode, resultCode, data);
+    }
+    void navigateToSecondActivity() {
+        finish();
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 }

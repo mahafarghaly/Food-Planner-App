@@ -9,10 +9,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.foodplanner.R;
@@ -27,8 +30,18 @@ import com.example.foodplanner.model.MealRepository;
 import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.network.MealRemoteDataSource;
 
+import org.checkerframework.checker.units.qual.C;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableOnSubscribe;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class HomeFragment extends Fragment implements HomeFragmentView , OnMealClickListener{
@@ -43,7 +56,6 @@ public class HomeFragment extends Fragment implements HomeFragmentView , OnMealC
 CountryAdapter countryAdapter;
     HomeFragPresenter homeFragPresenter;
     LinearLayoutManager linearLayoutManager,linearLayoutManager2,linearLayoutManager3;
-
  String TAG ="HomeFragment";
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,8 +71,9 @@ CountryAdapter countryAdapter;
         categoriesRecyclerView = view.findViewById(R.id.rv_categories); // Find RecyclerView here
         randomRecyclerView =  view.findViewById(R.id.rv_random);
         countryRecyclerView= view.findViewById(R.id.rv_countries);
+
+
         return view;
-      
     }
 
     @Override
@@ -102,6 +115,7 @@ CountryAdapter countryAdapter;
         countryRecyclerView.setAdapter(countryAdapter);
         homeFragPresenter.getCountries();
         Log.i(TAG, "onViewCreated33333333333: ");
+
 
     }
 
@@ -150,4 +164,6 @@ addMeal(meal);
 Toast.makeText(getContext(),"Added to favorite",Toast.LENGTH_SHORT).show();
 
     }
+
+
 }

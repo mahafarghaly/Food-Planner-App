@@ -6,16 +6,21 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.foodplanner.MainActivity;
 import com.example.foodplanner.R;
 import com.example.foodplanner.db.MealLocalDataSource;
+import com.example.foodplanner.detail.view.DetailActivity;
+import com.example.foodplanner.homefrag.view.HomeFragment;
 import com.example.foodplanner.mealbycategory.presenter.MealByCategoryPresenter;
 import com.example.foodplanner.mealbycategory.presenter.MealByCategoryPresenterImpl;
 import com.example.foodplanner.mealbycategory.view.MealByCategoryAdapter;
@@ -25,6 +30,7 @@ import com.example.foodplanner.model.Categories;
 import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.model.MealRepository;
 import com.example.foodplanner.network.MealRemoteDataSource;
+import com.example.foodplanner.signup.SignUpActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +42,7 @@ public class MealByCountryActivity extends AppCompatActivity implements MealByCo
     RecyclerView recyclerView;
     MealByCountryAdapter mealByCountryAdapter;
     MealByCountryPresenter mealByCountryPresenter;
+    ImageView back_btn;
     private static final String TAG = "MealByCountryActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,7 @@ public class MealByCountryActivity extends AppCompatActivity implements MealByCo
         setContentView(R.layout.activity_meal_by_country);
         tv_country=findViewById(R.id.tv_area_name);
         recyclerView=findViewById(R.id.rv_meal_country);
+        back_btn=findViewById(R.id.btn_back);
         Intent intent = getIntent();
         Meal meal = (Meal) intent.getSerializableExtra("meal");
         tv_country.setText(meal.getStrArea());
@@ -59,6 +67,14 @@ public class MealByCountryActivity extends AppCompatActivity implements MealByCo
         //***============================//
         mealByCountryPresenter.getMealByCountry(meal.getStrArea());
         //**********======================//
+   back_btn.setOnClickListener(new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+         startActivity(new Intent(MealByCountryActivity.this, HomeFragment.class));
+
+       }
+   });
+
     }
 
     @Override

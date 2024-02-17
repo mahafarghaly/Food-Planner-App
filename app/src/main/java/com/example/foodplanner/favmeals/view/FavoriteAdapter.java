@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.foodplanner.R;
 import com.example.foodplanner.detail.view.DetailActivity;
+import com.example.foodplanner.favmeals.presenter.FavPresenter;
 import com.example.foodplanner.model.Meal;
 
 import java.util.ArrayList;
@@ -52,11 +53,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         Meal currentmeal = mealList.get(position);
 
         holder.titleTextView.setText(currentmeal.getStrMeal());
-       // holder.priceTextView.setText("Price: " + (currentmeal.getPrice()));
-//       holder.ratingBar.setRating((float) currentProduct.getRating());
-//        Glide.with(holder.imageView.getContext())
-//                .load(currentProduct.getThumbnails())
-//                .into(holder.imageView);
 
         Glide.with(context).load(currentmeal.getStrMealThumb()).into(holder.imageView);
         holder.btn_remove.setOnClickListener(new View.OnClickListener() {
