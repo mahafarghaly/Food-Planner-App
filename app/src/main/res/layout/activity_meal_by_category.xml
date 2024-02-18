@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".mealbycategory.view.MealByCategoryActivity">
 
+
     <ImageView
         android:id="@+id/iv_category"
         android:layout_width="match_parent"
@@ -61,5 +62,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="260dp" />
+
+    <ImageButton
+        android:id="@+id/btn_back_cat"
+        android:background="@drawable/circle_background"
+        android:backgroundTint="@color/white"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/arrow_back" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

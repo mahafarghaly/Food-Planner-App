@@ -32,7 +32,7 @@
         <View
             android:id="@+id/view"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="24dp"
             android:alpha="0.5"
             android:background="@color/cardview_dark_background"
@@ -45,7 +45,8 @@
             android:id="@+id/tv_meal_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
@@ -53,12 +54,13 @@
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view" />
 
 
         <androidx.cardview.widget.CardView
             android:layout_width="150dp"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:layout_marginStart="24dp"
             android:layout_weight="1"
             app:cardCornerRadius="20dp"
@@ -102,7 +104,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
             android:layout_width="150dp"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:layout_marginStart="232dp"
             android:layout_marginTop="12dp"
             android:layout_weight="1"
@@ -235,6 +237,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:orientation="horizontal"
                     android:weightSum="2"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -275,11 +278,17 @@
         </androidx.cardview.widget.CardView>
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/btn_back_det"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:backgroundTint="@color/colorWhiteDark"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/circle_background"
+            android:backgroundTint="@color/white"
+            android:minWidth="40dp"
+            android:minHeight="40dp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_plan"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/iv_meal"
             app:layout_constraintTop_toTopOf="@+id/iv_meal"
             app:srcCompat="@drawable/arrow_back" />

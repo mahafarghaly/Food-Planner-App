@@ -25,6 +25,8 @@ import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.model.MealPlan;
 import com.example.foodplanner.model.MealRepository;
 import com.example.foodplanner.network.MealRemoteDataSource;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -40,15 +42,26 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView 
     WebView webView;
     ImageButton btn_fav, btn_plan;
     DetailActivityPresenterImpl presenter;
+    ImageButton btn_back;
     private static final String TAG = "DetailActivity";
 
     String planDate;
     MealPlan mealPlan;
+    FirebaseAuth auth= FirebaseAuth.getInstance();
+    FirebaseUser currentUser = auth.getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        btn_back=findViewById(R.id.btn_back_det);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+
+            }
+        });
         Intent intent = getIntent();
         Meal meal = (Meal) intent.getSerializableExtra("meal");
 
@@ -71,39 +84,45 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView 
         btn_fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addMeal(meal);
-                Toast.makeText(getBaseContext(), "Added to favorite", Toast.LENGTH_SHORT).show();
-
+                if(currentUser!=null) {
+                    addMeal(meal);
+                    Toast.makeText(getBaseContext(), "Added to favorite", Toast.LENGTH_SHORT).show();
+                }else{
+                  showDialog();
+                }
             }
         });
-        btn_plan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //addPlan(mealPlan);
-                Toast.makeText(getBaseContext(), "Added to Plan", Toast.LENGTH_SHORT).show();
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(DetailActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int i, int i1, int i2) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(i, i1, i2);                                             //, yyyy
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd", Locale.getDefault());
-                        String formattedDate = dateFormat.format(calendar.getTime());
+            btn_plan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Calendar calendar = Calendar.getInstance();
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH);
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                        planDate = formattedDate;
-                        mealPlan = new MealPlan(planDate, meal);
-                        addPlan(mealPlan);
+                    DatePickerDialog dialog = new DatePickerDialog(DetailActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int i, int i1, int i2) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(i, i1, i2);                                             //, yyyy
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM dd", Locale.getDefault());
+                            String formattedDate = dateFormat.format(calendar.getTime());
+
+                            planDate = formattedDate;
+                            mealPlan = new MealPlan(planDate, meal);
+                            addPlan(mealPlan);
+                        }
+                    }, year, month, day);
+                    if(currentUser!=null) {
+                        dialog.show();
+                    }else{
+                        showDialog();
                     }
-                }, year, month, day);
-                dialog.show();
+                }
 
-            }
+            });
 
-        });
     }
 
     private String extractYoutubeVideoId(String videoUrl) {
@@ -135,8 +154,9 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView 
 
     @Override
     public void addPlan(MealPlan mealPlan) {
+    presenter.addToPlan(mealPlan);
 
-        presenter.addToPlan(mealPlan);
+
     }
 
 
@@ -162,64 +182,64 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView 
 
 
     public void getIngAndMes(Meal meal) {
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient1().isEmpty() && !Character.isWhitespace(meal.getStrIngredient1().charAt(0))) {
             tv_ingredient.append("\n \u2022" + meal.getStrIngredient1());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient2().isEmpty() && !Character.isWhitespace(meal.getStrIngredient2().charAt(0))) {
             tv_ingredient.append("\n \u2022" + meal.getStrIngredient2());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient3().isEmpty() && !Character.isWhitespace(meal.getStrIngredient3().charAt(0))) {
             tv_ingredient.append("\n \u2022" + meal.getStrIngredient3());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient4().isEmpty() && !Character.isWhitespace(meal.getStrIngredient4().charAt(0))) {
             tv_ingredient.append("\n \u2022" + meal.getStrIngredient4());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient5().isEmpty() && !Character.isWhitespace(meal.getStrIngredient5().charAt(0))) {
             tv_ingredient.append("\n \u2022" + meal.getStrIngredient5());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient6().isEmpty() && !Character.isWhitespace(meal.getStrIngredient6().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient6());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient7().isEmpty() && !Character.isWhitespace(meal.getStrIngredient7().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient7());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient8().isEmpty() && !Character.isWhitespace(meal.getStrIngredient8().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient8());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient9().isEmpty() && !Character.isWhitespace(meal.getStrIngredient9().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient9());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient10().isEmpty() && !Character.isWhitespace(meal.getStrIngredient10().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient10());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient11().isEmpty() && !Character.isWhitespace(meal.getStrIngredient11().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient11());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient12().isEmpty() && !Character.isWhitespace(meal.getStrIngredient12().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient12());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient13().isEmpty() && !Character.isWhitespace(meal.getStrIngredient13().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient13());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient14().isEmpty() && !Character.isWhitespace(meal.getStrIngredient14().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient14());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient15().isEmpty() && !Character.isWhitespace(meal.getStrIngredient15().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient15());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient16().isEmpty() && !Character.isWhitespace(meal.getStrIngredient16().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient16());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient17().isEmpty() && !Character.isWhitespace(meal.getStrIngredient17().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient17());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient18().isEmpty() && !Character.isWhitespace(meal.getStrIngredient18().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient18());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient19().isEmpty() && !Character.isWhitespace(meal.getStrIngredient19().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient19());
         }
-        if (!meal.toString().isEmpty()) {
+        if (!meal.getStrIngredient20().isEmpty() && !Character.isWhitespace(meal.getStrIngredient20().charAt(0))) {
             tv_ingredient.append("\n \u2022 " + meal.getStrIngredient20());
         }
 
@@ -321,5 +341,11 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView 
 
     }
 
-
+public void showDialog(){
+    AlertDialog.Builder builder=new AlertDialog.Builder(this);
+    builder.setMessage("Please Register at First");
+    builder.setTitle("Not Allowed for guest!");
+    AlertDialog dialog=builder.create();
+    dialog.show();
+}
                     }

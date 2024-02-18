@@ -29,6 +29,8 @@ import com.example.foodplanner.model.Categories;
 import com.example.foodplanner.model.MealRepository;
 import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.network.MealRemoteDataSource;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.checkerframework.checker.units.qual.C;
 
@@ -57,6 +59,8 @@ CountryAdapter countryAdapter;
     HomeFragPresenter homeFragPresenter;
     LinearLayoutManager linearLayoutManager,linearLayoutManager2,linearLayoutManager3;
  String TAG ="HomeFragment";
+    FirebaseAuth auth= FirebaseAuth.getInstance();
+    FirebaseUser currentUser = auth.getCurrentUser();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,8 +143,9 @@ CountryAdapter countryAdapter;
 
     @Override
     public void addMeal(Meal meal) {
-
-        homeFragPresenter.addToFav(meal);
+if(currentUser!=null) {
+    homeFragPresenter.addToFav(meal);
+}
     }
 
     @Override
@@ -160,9 +165,16 @@ Log.i(TAG, "showCountries: ");
 
     @Override
     public void onMealClick(Meal meal) {
-addMeal(meal);
-Toast.makeText(getContext(),"Added to favorite",Toast.LENGTH_SHORT).show();
-
+        if(currentUser!=null) {
+            addMeal(meal);
+            Toast.makeText(getContext(), "Added to favorite", Toast.LENGTH_SHORT).show();
+        }else{
+            AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+            builder.setMessage("Please Register at First");
+            builder.setTitle("Not Allowed for guest!");
+            AlertDialog dialog=builder.create();
+            dialog.show();
+        }
     }
 
 

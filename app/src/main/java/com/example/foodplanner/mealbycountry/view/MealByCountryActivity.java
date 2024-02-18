@@ -31,6 +31,8 @@ import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.model.MealRepository;
 import com.example.foodplanner.network.MealRemoteDataSource;
 import com.example.foodplanner.signup.SignUpActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,8 @@ public class MealByCountryActivity extends AppCompatActivity implements MealByCo
     MealByCountryAdapter mealByCountryAdapter;
     MealByCountryPresenter mealByCountryPresenter;
     ImageView back_btn;
+    FirebaseAuth auth= FirebaseAuth.getInstance();
+    FirebaseUser currentUser = auth.getCurrentUser();
     private static final String TAG = "MealByCountryActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +74,7 @@ public class MealByCountryActivity extends AppCompatActivity implements MealByCo
    back_btn.setOnClickListener(new View.OnClickListener() {
        @Override
        public void onClick(View v) {
-         startActivity(new Intent(MealByCountryActivity.this, HomeFragment.class));
+           onBackPressed();
 
        }
    });
@@ -99,8 +103,15 @@ public class MealByCountryActivity extends AppCompatActivity implements MealByCo
 
     @Override
     public void onCountryClick(Meal meal) {
-        addMeal(meal);
-        Toast.makeText(this,"Added to favorite",Toast.LENGTH_SHORT).show();
-
+        if(currentUser!=null) {
+            addMeal(meal);
+            Toast.makeText(this, "Added to favorite", Toast.LENGTH_SHORT).show();
+        }else{
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setMessage("Please Register at First");
+            builder.setTitle("Not Allowed for guest!");
+            AlertDialog dialog=builder.create();
+            dialog.show();
+        }
     }
 }

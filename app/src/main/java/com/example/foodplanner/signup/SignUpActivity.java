@@ -38,7 +38,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView {
     private SignUpPresenterImpl presenter;
     private FirebaseAuth auth;
     private EditText signupEmail, signupPassword, confPassword;
-    private Button signUpButton;
+    private Button signUpButton,btnSkip;
     private TextView loginRedirectText;
     private ImageView signGoogleBtn;
 
@@ -61,7 +61,13 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView {
         signUpButton = findViewById(R.id.signup_button);
         loginRedirectText = findViewById(R.id.loginRedirectText);
         signGoogleBtn = findViewById(R.id.btn_google);
-
+        btnSkip=findViewById(R.id.btn_skip);
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignUpActivity.this,HomeActivity.class));
+            }
+        });
         signUpButton.setOnClickListener(v -> {
             String email = signupEmail.getText().toString().trim();
             String password = signupPassword.getText().toString().trim();

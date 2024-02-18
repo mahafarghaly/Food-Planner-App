@@ -32,20 +32,20 @@
         <View
             android:id="@+id/view"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:alpha="0.5"
             android:background="@color/cardview_dark_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_favorite_name" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_favorite_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="TextView"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
@@ -54,7 +54,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/iv_favorite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view" />
 
         <ImageButton
             android:id="@+id/btn_remove"

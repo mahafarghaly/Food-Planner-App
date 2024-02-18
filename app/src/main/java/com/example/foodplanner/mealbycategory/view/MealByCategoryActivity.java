@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +27,8 @@ import com.example.foodplanner.model.Categories;
 import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.model.MealRepository;
 import com.example.foodplanner.network.MealRemoteDataSource;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +40,9 @@ public class MealByCategoryActivity extends AppCompatActivity implements  MealBy
     RecyclerView recyclerView;
     MealByCategoryAdapter mealByCategoryAdapter;
     MealByCategoryPresenter mealByCategoryPresenter;
+    FirebaseAuth auth= FirebaseAuth.getInstance();
+    FirebaseUser currentUser = auth.getCurrentUser();
+    ImageButton btn_back;
     private static final String TAG = "MealByCategoryActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,14 @@ public class MealByCategoryActivity extends AppCompatActivity implements  MealBy
         tv_category = findViewById(R.id.tv_category_name);
         categoryImage=findViewById(R.id.iv_category);
           recyclerView=findViewById(R.id.rv_mea_cat);
+          btn_back=findViewById(R.id.btn_back_cat);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+
+            }
+        });
         //******************************************//
         tv_category.setText(category.getStrCategory());
         Glide.with(this).load(category.getStrCategoryThumb()).placeholder(R.drawable.ic_launcher_foreground).into(categoryImage);
@@ -88,8 +104,18 @@ public class MealByCategoryActivity extends AppCompatActivity implements  MealBy
 
     @Override
     public void onMealClick(Meal meal) {
-addMeal(meal);
-  Toast.makeText(this,"Added to favorite",Toast.LENGTH_SHORT).show();
-
+        if(currentUser!=null) {
+            addMeal(meal);
+            Toast.makeText(this, "Added to favorite", Toast.LENGTH_SHORT).show();
+        }else {
+            showDialog();
+        }
+    }
+    public void showDialog(){
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setMessage("Please Register at First");
+        builder.setTitle("Not Allowed for guest!");
+        AlertDialog dialog=builder.create();
+        dialog.show();
     }
 }

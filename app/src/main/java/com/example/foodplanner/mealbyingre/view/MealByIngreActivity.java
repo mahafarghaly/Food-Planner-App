@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +27,8 @@ import com.example.foodplanner.model.Categories;
 import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.model.MealRepository;
 import com.example.foodplanner.network.MealRemoteDataSource;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +36,13 @@ import java.util.List;
 public class MealByIngreActivity extends AppCompatActivity implements MealByIngreView,OnMealByIngreClickListener{
     TextView tv_ingredient;//,tv_country,tv_instructions,tv_meal_name;//
     ImageView ingredientImage;
+    ImageButton btn_back;
     LinearLayoutManager linearLayoutManager;
     RecyclerView recyclerView;
     MealByIngrAdapter mealByIngrAdapter;
     MealByIngrePresenter mealByIngrePresenter;
+    FirebaseAuth auth= FirebaseAuth.getInstance();
+    FirebaseUser currentUser = auth.getCurrentUser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +50,14 @@ public class MealByIngreActivity extends AppCompatActivity implements MealByIngr
         tv_ingredient = findViewById(R.id.ingre_name);
        ingredientImage =findViewById(R.id.image_ingre);
         recyclerView=findViewById(R.id.rv_meal_ingre);
+        btn_back=findViewById(R.id.btn_back_ing);
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+
+            }
+        });
         Intent intent = getIntent();
         Meal meal = (Meal) intent.getSerializableExtra("meal");
         tv_ingredient.setText(meal.getStrIngredient());
@@ -87,8 +102,16 @@ public class MealByIngreActivity extends AppCompatActivity implements MealByIngr
 
     @Override
     public void onMealByIngredientClick(Meal meal) {
-        addMeal(meal);
-        Toast.makeText(this,"Added to favorite",Toast.LENGTH_SHORT).show();
-
+        if(currentUser!=null) {
+            addMeal(meal);
+            Toast.makeText(this, "Added to favorite", Toast.LENGTH_SHORT).show();
+        }else{
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setMessage("Please Register at First");
+            builder.setTitle("Not Allowed for guest!");
+            AlertDialog dialog=builder.create();
+            dialog.show();
+        }
     }
+
 }
