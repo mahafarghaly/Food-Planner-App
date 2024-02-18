@@ -15,6 +15,9 @@
         android:theme="@style/Theme.FoodPlanner"
         tools:targetApi="31">
         <activity
+            android:name=".mealbyingre.view.MealByIngreActivity"
+            android:exported="false" />
+        <activity
             android:name=".mealbycountry.view.MealByCountryActivity"
             android:exported="false" />
         <activity

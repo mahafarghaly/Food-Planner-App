@@ -19,7 +19,11 @@ public interface MealService {
     Observable<MealResponse>getAllCountries();
     @GET("filter.php?")
     Observable<MealResponse>getMealByCountry(@Query("a")String strArea);
-//list.php?i=list
+
     @GET("list.php?i=list")
     Observable<MealResponse>getAllIngredient();
+    @GET("filter.php?")
+    Observable<MealResponse>getMealByIngredient(@Query("i")String strIngredient);
+
+
 }

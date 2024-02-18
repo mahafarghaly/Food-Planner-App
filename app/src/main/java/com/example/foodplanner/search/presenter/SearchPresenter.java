@@ -6,5 +6,6 @@ public interface SearchPresenter {
     void getCategories();
 
     void getCountries();
+    void getIngredients();
 
 }

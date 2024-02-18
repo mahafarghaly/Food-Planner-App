@@ -78,5 +78,33 @@ public class SearchPresenterImpl implements  SearchPresenter
                 });
     }
 
+    @Override
+    public void getIngredients() {
+        _repo.getAllIngredient()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<MealResponse>(){
+
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@NonNull MealResponse mealResponse) {
+                        _view.showIngredient(mealResponse.getMeal());
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
 
 }

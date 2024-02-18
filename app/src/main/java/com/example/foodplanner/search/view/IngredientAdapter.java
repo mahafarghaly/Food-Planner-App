@@ -2,6 +2,8 @@ package com.example.foodplanner.search.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.foodplanner.R;
-import com.example.foodplanner.homefrag.view.adapter.CountryAdapter;
+import com.example.foodplanner.mealbycategory.view.MealByCategoryActivity;
 import com.example.foodplanner.mealbycountry.view.MealByCountryActivity;
+import com.example.foodplanner.mealbyingre.view.MealByIngreActivity;
 import com.example.foodplanner.model.Meal;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kotlin.collections.FloatIterator;
 
 public class IngredientAdapter  extends RecyclerView.Adapter <IngredientAdapter.ViewHolder>{
     public static final String TAG="IngredientAdapter";
@@ -28,62 +33,61 @@ public class IngredientAdapter  extends RecyclerView.Adapter <IngredientAdapter.
 
     private List<Meal> ingredientList;
 
-    //OnMealClickListener listener;
+
+    OnIngredientClickListener listener;
     public List<Meal> getIngredientList() {
         return ingredientList;
     }
 
     public void setIngredientList(List<Meal> mealList) {
-        this.ingredientList = mealList;
+
+
+        this.ingredientList= mealList;
         notifyDataSetChanged();
     }
 
-    public IngredientAdapter(Context context, List<Meal> meals) {
+    public IngredientAdapter(Context context, List<Meal> meals,OnIngredientClickListener _listener) {
         this.context = context;
         this.ingredientList = meals;
         meals =new ArrayList<Meal>();
-        // this.listener=_listener;
+         this.listener=_listener;
     }
 
 
     @NonNull
     @Override
     public IngredientAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_country, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ingredient, parent, false);
         return new IngredientAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull IngredientAdapter.ViewHolder holder, int position) {
-        Meal meal = ingredientList.get(position);
+       Meal meal = ingredientList.get(position);
 
-        holder.titleTextView.setText(meal.getStrArea()
-
-        );
-
-        Glide.with(context).load("https://flagsapi.com/" +getCountryCode(meal.getStrArea()) + "/flat/64.png")
-                .apply(new RequestOptions().override(120, 64))
+holder.titleTextView.setText(meal.getStrIngredient());
+        String imgURL="https://www.themealdb.com/images/ingredients/"+
+                ingredientList.get(position).getStrIngredient()+".png";
+        Glide.with(context).load(imgURL)
                 .into(holder.imageView);
+
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle click event
-                // Open the meal details fragment
+
                 Context context = v.getContext();
-                Intent intent = new Intent(context, MealByCountryActivity.class);
+                Intent intent = new Intent(context, MealByIngreActivity.class);
                 intent.putExtra("meal", meal);
                 context.startActivity(intent);
-
-
             }
         });
-
     }
 
     @Override
     public int getItemCount() {
         return ingredientList.size();
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView, priceTextView;
@@ -92,76 +96,12 @@ public class IngredientAdapter  extends RecyclerView.Adapter <IngredientAdapter.
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleTextView = itemView.findViewById(R.id.tv_country_name);
-            imageView = itemView.findViewById(R.id.iv_country);
+            titleTextView = itemView.findViewById(R.id.tv_ingredient_name);
+            imageView = itemView.findViewById(R.id.iv_ingredient);
 
 
         }
     }
-    public static String getCountryCode(String countryName) {
-        switch (countryName) {
-            case "American":
-                return "AS";
-            case "British":
-                return "GB";
-            case "Canadian":
-                return "CA";
-            case "Chinese":
-                return "CN";
-            case "Croatian":
-                return "HR";
-            case "Dutch": //not found
-                return "NL";
-            case "Egyptian":
-                return "EG";
-            case "Filipino":
-                return "PH";
-            case "French":
-                return "PF";
-            case "Greek":
-                return "GR";
-            case "Indian":
-                return "IN";
-            case "Irish":
-                return "IE";
-            case "Italian":
-                return "IT";
-            case "Jamaican":
-                return "JM";
-            case "Japanese":
-                return "JP";
-            case "Kenyan":
-                return "KE";
-            case "Malaysian":
-                return "MY";
-            case "Mexican":
-                return "MX";
-            case "Polish":
-                return "PL";
-            case "Portuguese":
-                return "PT";
-            case "Russian":
-                return "RU";
-            case "Moroccan":
-                return "MA";
 
-            case "Spanish":
-                return "ES";
-            case "Thai":
-                return "TH";
-            case "Tunisian":
-                return "TN";
-            case "Turkish":
-                return "TC";
-            case "Vietnamese":
-                return "VN";
-            case "Unknown":
-                return " ";
-
-
-            default:
-                return "";
-        }
-    }
 }
 

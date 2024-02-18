@@ -44,16 +44,17 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class SearchFragment extends Fragment implements SearchView{
+public class SearchFragment extends Fragment implements SearchView ,OnIngredientClickListener{
 
     private RecyclerView recyclerView;
     private CategoriesAdapter categoriesAdapter;
-    private LinearLayoutManager linearLayoutManager,linearLayoutManager2;
+    private LinearLayoutManager linearLayoutManager,linearLayoutManager2,linearLayoutManager3;
     private EditText searchEditText;
     CountryAdapter countryAdapter;
+    IngredientAdapter ingredientAdapter;
     SearchPresenter searchPresenter;
     EditText search;
-    Button btn_category,btn_country;
+    Button btn_category,btn_country,btn_ingredient;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -76,6 +77,7 @@ public class SearchFragment extends Fragment implements SearchView{
         search=view.findViewById(R.id.searchEditText);
         btn_category=view.findViewById(R.id.btn_categories);
         btn_country=view.findViewById(R.id.btn_country);
+        btn_ingredient=view.findViewById(R.id.bnt_ing);
         btn_category .setOnClickListener(v -> {
             recyclerView.setAdapter(categoriesAdapter); // Set categories adapter
             searchPresenter.getCategories(); // Fetch and display categories data
@@ -83,6 +85,10 @@ public class SearchFragment extends Fragment implements SearchView{
         btn_country.setOnClickListener(v -> {
             recyclerView.setAdapter(countryAdapter); // Set countries adapter
             searchPresenter.getCountries(); // Fetch and display countries data
+        });
+        btn_ingredient.setOnClickListener(v -> {
+            recyclerView.setAdapter(ingredientAdapter); // Set countries adapter
+            searchPresenter.getIngredients(); // Fetch and display countries data
         });
 
         return view;
@@ -115,6 +121,19 @@ public class SearchFragment extends Fragment implements SearchView{
 //        recyclerView.setAdapter(countryAdapter);
 //        searchPresenter.getCountries();
 
+        //ingredients
+        linearLayoutManager3= new LinearLayoutManager(getContext());
+        linearLayoutManager3.setOrientation(LinearLayoutManager.VERTICAL);// Use getContext() to get the context of the fragment
+        ingredientAdapter = new IngredientAdapter(getContext(), new ArrayList<>(),this);
+        searchPresenter = new SearchPresenterImpl(this,
+                MealRepository.getInstance(MealRemoteDataSource.getInstance(),
+                        MealLocalDataSource.getInstance(getContext())
+                ));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
+//        recyclerView.setAdapter(countryAdapter);
+//        searchPresenter.getIngredients();
+
+
         Observable.create((ObservableOnSubscribe<String>) emitter ->
                         search.addTextChangedListener(new TextWatcher() {
                             @Override
@@ -138,10 +157,14 @@ public class SearchFragment extends Fragment implements SearchView{
                 .subscribe(searchTerm -> {
                     List<Categories> filteredCategories = filterCategories(searchTerm);
                    List<Meal> filteredCountries = filterCountries(searchTerm);
+                    List<Meal> filteredIngredient = filterIngredient(searchTerm);
                     categoriesAdapter.setCategoriesList(filteredCategories);
                     countryAdapter.setCountryList(filteredCountries);
                     categoriesAdapter.notifyDataSetChanged();
                     countryAdapter.notifyDataSetChanged();
+
+                    ingredientAdapter.setIngredientList(filteredIngredient);
+                    ingredientAdapter.notifyDataSetChanged();
                 });
 
     }
@@ -151,6 +174,10 @@ public class SearchFragment extends Fragment implements SearchView{
     }
     private List<Meal> filterCountries(String searchTerm) {
         return  Arrays.stream(countryAdapter.getCountryList().toArray(new Meal[0])).filter(item->item.getStrArea().toLowerCase().contains(searchTerm)).collect(Collectors.toList());
+
+    }
+    private List<Meal> filterIngredient(String searchTerm) {
+        return  Arrays.stream(ingredientAdapter.getIngredientList().toArray(new Meal[0])).filter(item->item.getStrIngredient().toLowerCase().contains(searchTerm)).collect(Collectors.toList());
 
     }
 
@@ -180,5 +207,17 @@ public class SearchFragment extends Fragment implements SearchView{
         countryAdapter.setCountryList(country);
         countryAdapter.notifyDataSetChanged();
         Log.i(TAG, "showCountries: ");
+    }
+
+    @Override
+    public void showIngredient(List<Meal> ingredient) {
+        ingredientAdapter.setIngredientList(ingredient);
+        ingredientAdapter.notifyDataSetChanged();
+        Log.i(TAG, "showCountries: ");
+    }
+
+    @Override
+    public void onIngredientClick(Meal meal) {
+
     }
 }

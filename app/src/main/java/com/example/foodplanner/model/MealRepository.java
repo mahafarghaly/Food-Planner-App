@@ -49,6 +49,9 @@ public class MealRepository {
     public Observable<MealResponse> getAllIngredient(){
         return remoteDataSource.ingredientNetworkCall();
     }
+    public Observable<MealResponse> getMealByIngredient(String ingredient){
+        return remoteDataSource.mealByIngredientNetworkCall(ingredient);
+    }
 
 
     public Flowable<List<Meal>> getStoredData(){

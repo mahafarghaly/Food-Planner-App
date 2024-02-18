@@ -10,5 +10,6 @@ public interface SearchView {
     public void showErrMsg(String error);
 
     public void showCountry(List<Meal> country);
+    public void showIngredient(List<Meal> ingredient);
 
 }
