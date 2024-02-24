@@ -12,8 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
 import com.example.foodplanner.R;
 import com.example.foodplanner.db.MealLocalDataSource;
 import com.example.foodplanner.favmeals.presenter.FavPresenter;
@@ -33,7 +36,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class YourPlanFragment extends Fragment implements  PlanView,OnPlanClickListener{
+public class YourPlanFragment extends Fragment implements  PlanView,OnPlanClickListener {
 
 
     public YourPlanFragment() {
@@ -45,7 +48,8 @@ public class YourPlanFragment extends Fragment implements  PlanView,OnPlanClickL
 
     PlanPresenter planPresenter;
     LinearLayoutManager linearLayoutManager;
-
+    LottieAnimationView lottieAnimationView;
+TextView tv_no_plan;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,19 +58,22 @@ public class YourPlanFragment extends Fragment implements  PlanView,OnPlanClickL
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_your_plan, container, false);
         planRecyclerView = view.findViewById(R.id.rv_plan);
-
+        tv_no_plan= view.findViewById(R.id.tv_noPlan);
+        lottieAnimationView = view.findViewById(R.id.lottiePlan);
+        lottieAnimationView.setVisibility(View.GONE);
+        tv_no_plan.setVisibility(View.GONE);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        linearLayoutManager=new LinearLayoutManager(getContext());
-        planAdapter=new PlanAdapter(getContext(),new ArrayList<>(),this);
-        planPresenter=new PlanPresenterImpl(this,
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        planAdapter = new PlanAdapter(getContext(), new ArrayList<>(), this);
+        planPresenter = new PlanPresenterImpl(this,
                 MealRepository.getInstance(MealRemoteDataSource.getInstance(),
                         MealLocalDataSource.getInstance(getContext())));
         planRecyclerView.setLayoutManager(linearLayoutManager);
@@ -77,14 +84,26 @@ public class YourPlanFragment extends Fragment implements  PlanView,OnPlanClickL
 
     @Override
     public void showData() {
-        Flowable<List<MealPlan>> data=  planPresenter.getStoredMealPlan();
+        Flowable<List<MealPlan>> data = planPresenter.getStoredMealPlan();
         data.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(meals ->{
-                    planAdapter.setList( meals);
-                    planAdapter.notifyDataSetChanged();
-                } );
+                .subscribe(meals -> {
+                    if(meals.size()>0) {
+                        planAdapter.setList(meals);
+                        planAdapter.notifyDataSetChanged();
+                    }else{
+                        planAdapter.notifyDataSetChanged();
+                        planRecyclerView.setVisibility(View.GONE);
+                        tv_no_plan.setVisibility(View.VISIBLE);
+                lottieAnimationView.setVisibility(View.VISIBLE);
+                        lottieAnimationView.setRepeatCount(LottieDrawable.INFINITE);
+                lottieAnimationView.playAnimation();
+
+                    }
+                });
     }
+
+
 
     @Override
     public void showErrMsg(String error) {

@@ -67,5 +67,7 @@ dependencies {
     implementation 'androidx.room:room-rxjava3:2.5.0'
 
     implementation 'com.airbnb.android:lottie:3.7.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
 
 }

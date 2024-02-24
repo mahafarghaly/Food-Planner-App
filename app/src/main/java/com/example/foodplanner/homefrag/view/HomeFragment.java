@@ -1,10 +1,12 @@
 package com.example.foodplanner.homefrag.view;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,9 +17,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
 import com.example.foodplanner.R;
 import com.example.foodplanner.db.MealLocalDataSource;
 import com.example.foodplanner.homefrag.presenter.HomeFragPresenter;
@@ -61,6 +68,10 @@ CountryAdapter countryAdapter;
  String TAG ="HomeFragment";
     FirebaseAuth auth= FirebaseAuth.getInstance();
     FirebaseUser currentUser = auth.getCurrentUser();
+    ConstraintLayout constraintLayout;
+    LottieAnimationView lottieAnimationView;
+    TextView tvDaily,tvCategory,tvCountry;
+    View divider1,divider2;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +86,14 @@ CountryAdapter countryAdapter;
         categoriesRecyclerView = view.findViewById(R.id.rv_categories); // Find RecyclerView here
         randomRecyclerView =  view.findViewById(R.id.rv_random);
         countryRecyclerView= view.findViewById(R.id.rv_countries);
-
-
+        constraintLayout=view.findViewById(R.id.con_layout_home);
+        tvCategory=view.findViewById(R.id.tv_home_categories);
+        tvCountry=view.findViewById(R.id.tv_home_countries);
+        tvDaily=view.findViewById(R.id.tv_insp_meal);
+        divider1=view.findViewById(R.id.divider_meal);
+        divider2=view.findViewById(R.id.divider_cate);
+        lottieAnimationView=view.findViewById(R.id.lottieAnimationView);
+        lottieAnimationView.setVisibility(View.GONE);
         return view;
     }
 
@@ -127,6 +144,8 @@ CountryAdapter countryAdapter;
 
     @Override
     public void showData(List<Categories> categories) {
+
+
         categoriesAdapter.setCategoriesList(categories);
         categoriesAdapter.notifyDataSetChanged();
         Log.i(TAG, "showData: ");
@@ -134,11 +153,16 @@ CountryAdapter countryAdapter;
 
     @Override
     public void showErrMsg(String error) {
-        Log.i(TAG, "showErrMsg: ");
-        AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
-        builder.setMessage(error).setTitle("An Error Occurred");
-        AlertDialog dialog=builder.create();
-        dialog.show();
+        tvCategory.setVisibility(View.GONE);
+        tvCountry.setVisibility(View.GONE);
+         tvDaily.setVisibility(View.GONE);
+         divider1.setVisibility(View.GONE);
+        divider2.setVisibility(View.GONE);
+        lottieAnimationView.setVisibility(View.VISIBLE);
+        lottieAnimationView.setRepeatCount(LottieDrawable.INFINITE);
+        lottieAnimationView.playAnimation();
+
+
     }
 
     @Override

@@ -34,9 +34,15 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//google SignIn
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount acct=GoogleSignIn.getLastSignedInAccount(this);
 
-
-
+        if(acct!=null){
+            String  personEmail=acct.getEmail();
+            Log.i(TAG, "googlwe account: "+personEmail);
+        }
         setContentView(R.layout.activity_home);
         BottomNavigationView bottomNav=findViewById(R.id.bottom_navigation);
         NavController navController= Navigation.findNavController(this,R.id.nav_host_fragment);
@@ -46,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
             builder.setMessage("Please Register at First");
             builder.setTitle("Not Allowed for guest!");
             AlertDialog dialog=builder.create();
-
+            Log.i(TAG, "accccccgg: "+acct);
                 if(item.getItemId()==R.id.homeFragment) {
                     navController.navigate(R.id.homeFragment);
                    // return true;
@@ -56,9 +62,11 @@ public class HomeActivity extends AppCompatActivity {
                 navController.navigate(R.id.yourPlanFragment);
                 Log.i(TAG, "plan: ");
 
+
             }else if(item.getItemId()== R.id.favoriteFragment &&(currentUser != null)){
                     navController.navigate(R.id.favoriteFragment);
                     Log.i(TAG, "favorite: ");
+
                 }
         else if(item.getItemId()== R.id.searchFragment){
             navController.navigate(R.id.searchFragment);
@@ -69,16 +77,7 @@ public class HomeActivity extends AppCompatActivity {
       return true;
 
         });
-        //google SignIn
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        gsc = GoogleSignIn.getClient(this, gso);
-        GoogleSignInAccount acct=GoogleSignIn.getLastSignedInAccount(this);
-        if(acct!=null){
-        String personame= acct.getDisplayName();
-        String personEmail=acct.getEmail();
-           // String personName=acct.getDisplayName();
-            //any data want to display
-        }
+
     }
 
 

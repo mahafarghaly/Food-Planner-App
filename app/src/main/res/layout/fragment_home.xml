@@ -2,12 +2,25 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ConstriantLayout"
+    android:id="@+id/con_layout_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".homefrag.view.HomeFragment">
 
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.191"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/internet_error" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_categories"
@@ -23,7 +36,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_home_categories"
         style="@android:style/Widget.DeviceDefault.Light.TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,7 +71,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_insp_meal" />
 
     <View
-        android:id="@+id/divider4"
+        android:id="@+id/divider_meal"
         android:layout_width="442dp"
         android:layout_height="1dp"
         android:layout_marginTop="40dp"
@@ -76,7 +89,7 @@
         app:layout_constraintGuide_begin="428dp" />
 
     <View
-        android:id="@+id/divider5"
+        android:id="@+id/divider_cate"
         android:layout_width="442dp"
         android:layout_height="1dp"
         android:layout_marginTop="48dp"
@@ -87,7 +100,7 @@
         app:layout_constraintTop_toBottomOf="@+id/rv_categories" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tv_home_countries"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -97,7 +110,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider5"
+        app:layout_constraintTop_toBottomOf="@+id/divider_cate"
         app:layout_constraintVertical_bias="0.583" />
 
     <androidx.recyclerview.widget.RecyclerView

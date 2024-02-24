@@ -39,6 +39,7 @@ public class DetailActivityPresenterImpl implements DetailActivityPresenter {
 
                     @Override
                     public void onNext(@NonNull MealResponse mealResponse) {
+
                         _view.showMealById(mealResponse.getMeal());
 
                     }

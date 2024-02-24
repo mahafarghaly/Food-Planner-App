@@ -25,6 +25,8 @@ import com.example.foodplanner.model.Meal;
 import com.example.foodplanner.model.MealPlan;
 import com.example.foodplanner.model.MealRepository;
 import com.example.foodplanner.network.MealRemoteDataSource;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -49,6 +51,7 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView 
     MealPlan mealPlan;
     FirebaseAuth auth= FirebaseAuth.getInstance();
     FirebaseUser currentUser = auth.getCurrentUser();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
