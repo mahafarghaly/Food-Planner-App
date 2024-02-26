@@ -108,8 +108,8 @@ public class MealByCountryActivity extends AppCompatActivity implements MealByCo
             Toast.makeText(this, "Added to favorite", Toast.LENGTH_SHORT).show();
         }else{
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            builder.setMessage("Please Register at First");
-            builder.setTitle("Not Allowed for guest!");
+            builder.setMessage("Please register first.");
+            builder.setTitle("Not available for guests!");
             AlertDialog dialog=builder.create();
             dialog.show();
         }

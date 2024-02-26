@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,6 +73,7 @@ CountryAdapter countryAdapter;
     LottieAnimationView lottieAnimationView;
     TextView tvDaily,tvCategory,tvCountry;
     View divider1,divider2;
+    ProgressBar progressBar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +96,8 @@ CountryAdapter countryAdapter;
         divider2=view.findViewById(R.id.divider_cate);
         lottieAnimationView=view.findViewById(R.id.lottieAnimationView);
         lottieAnimationView.setVisibility(View.GONE);
+        progressBar=view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         return view;
     }
 
@@ -149,10 +153,12 @@ CountryAdapter countryAdapter;
         categoriesAdapter.setCategoriesList(categories);
         categoriesAdapter.notifyDataSetChanged();
         Log.i(TAG, "showData: ");
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showErrMsg(String error) {
+        progressBar.setVisibility(View.GONE);
         tvCategory.setVisibility(View.GONE);
         tvCountry.setVisibility(View.GONE);
          tvDaily.setVisibility(View.GONE);
@@ -184,6 +190,7 @@ if(currentUser!=null) {
 countryAdapter.setCountryList(country);
 countryAdapter.notifyDataSetChanged();
 Log.i(TAG, "showCountries: ");
+        
 
     }
 

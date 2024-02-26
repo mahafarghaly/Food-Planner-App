@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,23 +36,22 @@ import com.google.firebase.auth.FirebaseUser;
 import org.checkerframework.checker.signature.qual.SignatureUnknown;
 
 public class SignUpActivity extends AppCompatActivity implements SignUpView {
-    private SignUpPresenterImpl presenter;
+    private SignUpPresenter presenter;
     private FirebaseAuth auth;
     private EditText signupEmail, signupPassword, confPassword;
     private Button signUpButton,btnSkip;
     private TextView loginRedirectText;
     private ImageView signGoogleBtn;
-
+    private static final String TAG = "SignUpActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         auth = FirebaseAuth.getInstance();
+        GoogleSignInAccount acct=GoogleSignIn.getLastSignedInAccount(this);
+
         FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser != null) {
-            startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
-            finish();
-        }
+
         presenter = new SignUpPresenterImpl(this);
 
 
@@ -75,9 +75,14 @@ public class SignUpActivity extends AppCompatActivity implements SignUpView {
             presenter.signUp(email, password, confirmPassword);
         });
 
-        loginRedirectText.setOnClickListener(v -> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
+        loginRedirectText.setOnClickListener(v-> startActivity(new Intent(SignUpActivity.this, LoginActivity.class)));
+
 
         signGoogleBtn.setOnClickListener(v -> presenter.handleGoogleSignIn());
+        if (currentUser != null||acct!=null ) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.example.foodplanner.mealbycategory.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,8 @@ import com.bumptech.glide.Glide;
 import com.example.foodplanner.R;
 import com.example.foodplanner.detail.view.DetailActivity;
 import com.example.foodplanner.model.Meal;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,11 +77,16 @@ public class MealByCategoryAdapter extends RecyclerView.Adapter <MealByCategoryA
             }
         });
         holder.btn_add.setOnClickListener(new View.OnClickListener() {
+            FirebaseAuth auth= FirebaseAuth.getInstance();
+            FirebaseUser currentUser = auth.getCurrentUser();
             @Override
             public void onClick(View v) {
 
                 listener.onMealClick(meal);
-
+                if(currentUser!=null){
+                    holder.btn_add.setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                    holder.btn_add.setEnabled(false);
+                }
             }
         });
 

@@ -49,10 +49,9 @@ public class HomeActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(item -> {
 
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            builder.setMessage("Please Register at First");
-            builder.setTitle("Not Allowed for guest!");
+            builder.setMessage("Please register first.");
+            builder.setTitle("Not available for guests!");
             AlertDialog dialog=builder.create();
-            Log.i(TAG, "accccccgg: "+acct);
                 if(item.getItemId()==R.id.homeFragment) {
                     navController.navigate(R.id.homeFragment);
                    // return true;
@@ -71,7 +70,10 @@ public class HomeActivity extends AppCompatActivity {
         else if(item.getItemId()== R.id.searchFragment){
             navController.navigate(R.id.searchFragment);
             Log.i(TAG, "search: ");
-        }else{
+        } else if(item.getItemId()== R.id.logoutFragment&&(currentUser != null)){
+                    navController.navigate(R.id.logoutFragment);
+                    Log.i(TAG, "logout: ");
+                }else{
                     dialog.show();
                 }
       return true;

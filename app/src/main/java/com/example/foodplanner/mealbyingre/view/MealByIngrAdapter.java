@@ -2,6 +2,8 @@ package com.example.foodplanner.mealbyingre.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,10 @@ import com.bumptech.glide.Glide;
 import com.example.foodplanner.R;
 import com.example.foodplanner.detail.view.DetailActivity;
 import com.example.foodplanner.model.Meal;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,17 +72,20 @@ public class MealByIngrAdapter extends RecyclerView.Adapter <MealByIngrAdapter.V
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("meal", meal);
                 context.startActivity(intent);
-
-//                Intent intent = new Intent(context, DetailActivity.class);
-//                intent.putExtra("mealId", meal.getStrMeal()); // Assuming getId() returns meal ID
-//                context.startActivity(intent);
             }
         });
         holder.btn_add.setOnClickListener(new View.OnClickListener() {
+            FirebaseAuth auth= FirebaseAuth.getInstance();
+            FirebaseUser currentUser = auth.getCurrentUser();
+
             @Override
             public void onClick(View v) {
 
                 listener.onMealByIngredientClick(meal);
+                if(currentUser!=null){
+                    holder.btn_add.setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                    holder.btn_add.setEnabled(false);
+                }
 
             }
         });
@@ -96,7 +105,6 @@ public class MealByIngrAdapter extends RecyclerView.Adapter <MealByIngrAdapter.V
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.tv_meal_name);
-            // priceTextView = itemView.findViewById(R.id.tv_product_price);
             imageView = itemView.findViewById(R.id.iv_meal);
             btn_add=itemView.findViewById(R.id.btn_add_cm);
 

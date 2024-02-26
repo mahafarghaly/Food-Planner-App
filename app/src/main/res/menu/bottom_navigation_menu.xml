@@ -20,5 +20,10 @@
         android:title="Search"
         android:icon="@drawable/search"
         />
+    <item
+        android:id="@+id/logoutFragment"
+        android:title="Settings"
+        android:icon="@drawable/settings"
+        />
 
 </menu>

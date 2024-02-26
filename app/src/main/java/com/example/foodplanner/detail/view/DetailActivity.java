@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.webkit.WebView;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,13 +54,15 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView 
     MealPlan mealPlan;
     FirebaseAuth auth= FirebaseAuth.getInstance();
     FirebaseUser currentUser = auth.getCurrentUser();
-
+ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         btn_back=findViewById(R.id.btn_back_det);
+        progressBar=findViewById(R.id.progressBarDetails);
+        progressBar.setVisibility(View.VISIBLE);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +94,8 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView 
             public void onClick(View v) {
                 if(currentUser!=null) {
                     addMeal(meal);
+                    btn_fav.setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                    btn_fav.setEnabled(false);
                     Toast.makeText(getBaseContext(), "Added to favorite", Toast.LENGTH_SHORT).show();
                 }else{
                   showDialog();
@@ -117,6 +124,7 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView 
                             addPlan(mealPlan);
                         }
                     }, year, month, day);
+                    dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                     if(currentUser!=null) {
                         dialog.show();
                     }else{
@@ -166,6 +174,7 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView 
     @Override
     public void showMealById(List<Meal> meals) {
         if (meals != null && !meals.isEmpty()) {
+            progressBar.setVisibility(View.GONE);
             Meal meal = meals.get(0); // Assuming you only expect one meal
             // Populate UI elements with meal details
             tv_meal_name.setText(meal.getStrMeal());
@@ -346,8 +355,8 @@ public class DetailActivity extends AppCompatActivity implements DetailByIdView 
 
 public void showDialog(){
     AlertDialog.Builder builder=new AlertDialog.Builder(this);
-    builder.setMessage("Please Register at First");
-    builder.setTitle("Not Allowed for guest!");
+    builder.setMessage("Please register first.");
+    builder.setTitle("Not available for guests!");
     AlertDialog dialog=builder.create();
     dialog.show();
 }

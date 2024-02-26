@@ -2,6 +2,8 @@ package com.example.foodplanner.mealbycountry.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import com.example.foodplanner.detail.view.DetailActivity;
 import com.example.foodplanner.mealbycategory.view.MealByCategoryAdapter;
 import com.example.foodplanner.mealbycategory.view.OnMealByCatClickListener;
 import com.example.foodplanner.model.Meal;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,10 +79,16 @@ public class MealByCountryAdapter extends RecyclerView.Adapter <MealByCountryAda
             }
         });
         holder.btn_add.setOnClickListener(new View.OnClickListener() {
+            FirebaseAuth auth= FirebaseAuth.getInstance();
+            FirebaseUser currentUser = auth.getCurrentUser();
             @Override
             public void onClick(View v) {
 
                 listener.onCountryClick(meal);
+                if(currentUser!=null){
+                    holder.btn_add.setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                    holder.btn_add.setEnabled(false);
+                }
 
             }
         });

@@ -41,16 +41,15 @@ public class LoginActivity  extends AppCompatActivity implements LoginView {
     private TextView signupRedirectText;
     private GoogleSignInClient gsc;
     private GoogleSignInOptions gso;
-
+    GoogleSignInAccount acct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         auth = FirebaseAuth.getInstance();
+
         FirebaseUser currentUser = auth.getCurrentUser();
-        if (currentUser != null) {
-            navigateToSecondActivity();
-        }
+
 
         presenter = new LoginPresenterImpl(this);
         auth = FirebaseAuth.getInstance();
@@ -72,16 +71,19 @@ public class LoginActivity  extends AppCompatActivity implements LoginView {
         // Google SignIn initialization
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this, gso);
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-        if (acct != null) {
+       acct = GoogleSignIn.getLastSignedInAccount(this);
+//        if (acct != null) {
+//            navigateToSecondActivity();
+//        }
+        signGoogleBtn.setOnClickListener(v -> presenter.handleGoogleSignIn());
+        if (currentUser != null||acct!=null) {
             navigateToSecondActivity();
         }
-
-        signGoogleBtn.setOnClickListener(v -> presenter.handleGoogleSignIn());
     }
 
     @Override
     public void showLoginSuccess() {
+
         Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         finish();

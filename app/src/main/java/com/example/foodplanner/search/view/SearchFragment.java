@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.example.foodplanner.R;
 import com.example.foodplanner.db.MealLocalDataSource;
@@ -55,7 +56,7 @@ public class SearchFragment extends Fragment implements SearchView ,OnIngredient
     SearchPresenter searchPresenter;
     EditText search;
     Button btn_category,btn_country,btn_ingredient;
-
+ProgressBar progressBar;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -65,8 +66,7 @@ public class SearchFragment extends Fragment implements SearchView ,OnIngredient
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Assume you have a method to get all categories
-        // For example, allCategories = getCategoryList();
+
     }
 
     @Override
@@ -75,6 +75,8 @@ public class SearchFragment extends Fragment implements SearchView ,OnIngredient
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         recyclerView = view.findViewById(R.id.rv_search);
         search=view.findViewById(R.id.searchEditText);
+        progressBar=view.findViewById(R.id.progressBarSearch);
+        progressBar.setVisibility(View.VISIBLE);
         btn_category=view.findViewById(R.id.btn_categories);
         btn_country=view.findViewById(R.id.btn_country);
         btn_ingredient=view.findViewById(R.id.bnt_ing);
@@ -91,6 +93,7 @@ public class SearchFragment extends Fragment implements SearchView ,OnIngredient
             searchPresenter.getIngredients(); // Fetch and display countries data
         });
 
+
         return view;
     }
 
@@ -106,9 +109,6 @@ public class SearchFragment extends Fragment implements SearchView ,OnIngredient
                         MealLocalDataSource.getInstance(getContext()
                         )));
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-//        recyclerView.setAdapter(categoriesAdapter);
-//        searchPresenter.getCategories();
-
         //countries
         linearLayoutManager2= new LinearLayoutManager(getContext());
         linearLayoutManager2.setOrientation(LinearLayoutManager.VERTICAL);// Use getContext() to get the context of the fragment
@@ -187,6 +187,7 @@ public class SearchFragment extends Fragment implements SearchView ,OnIngredient
             Log.i(TAG, "showCategory: Categories received, count: " + categories.size());
             categoriesAdapter.setCategoriesList(categories);
             categoriesAdapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
         } else {
             Log.i(TAG, "showCategory: No categories received or empty list.");
         }
@@ -207,6 +208,7 @@ public class SearchFragment extends Fragment implements SearchView ,OnIngredient
         countryAdapter.setCountryList(country);
         countryAdapter.notifyDataSetChanged();
         Log.i(TAG, "showCountries: ");
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -214,6 +216,7 @@ public class SearchFragment extends Fragment implements SearchView ,OnIngredient
         ingredientAdapter.setIngredientList(ingredient);
         ingredientAdapter.notifyDataSetChanged();
         Log.i(TAG, "showCountries: ");
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
